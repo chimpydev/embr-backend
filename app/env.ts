@@ -17,7 +17,7 @@ export const schema = {
     WRAPPED_NATIVE_ASSET_ADDRESS: String,
     COINGECKO_NATIVE_ASSET_ID: String,
     COINGECKO_PLATFORM_ID: String,
-    BEETS_ADDRESS: String,
+    EMBR_ADDRESS: String,
     SUBGRAPH_START_DATE: String,
 };
 

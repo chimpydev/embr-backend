@@ -3,6 +3,7 @@ export const balancerTokenMappings: {
     tokenSymbolOverwrites: { [oldSymbol: string]: string };
 } = {
     balancerPricedTokens: [
+        /*
         '0xf24bcf4d1e507740041c9cfd2dddb29585adce1e',
         '0x33be3a1df0e2f4124e76ee829adf7ff53a95bca6',
         '0x5b115563844ec6fb1725660967bdb9a014e36545',
@@ -21,6 +22,7 @@ export const balancerTokenMappings: {
         '0x4a13a2cf881f5378def61e430139ed26d843df9a',
         '0xddc0385169797937066bbd8ef409b5b3c0dfeb52',
         '0xbf07093ccd6adfc3deb259c557b61e94c1f66945',
+        */
     ],
     tokenSymbolOverwrites: {
         miMATIC: 'MAI',

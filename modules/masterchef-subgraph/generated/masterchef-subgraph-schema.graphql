@@ -16,7 +16,7 @@ input Block_height {
 scalar Bytes
 
 type MasterChef {
-    beetsPerBlock: BigInt!
+    embrPerBlock: BigInt!
     block: BigInt!
     id: ID!
     poolCount: BigInt!
@@ -32,14 +32,14 @@ type MasterChef {
 }
 
 input MasterChef_filter {
-    beetsPerBlock: BigInt
-    beetsPerBlock_gt: BigInt
-    beetsPerBlock_gte: BigInt
-    beetsPerBlock_in: [BigInt!]
-    beetsPerBlock_lt: BigInt
-    beetsPerBlock_lte: BigInt
-    beetsPerBlock_not: BigInt
-    beetsPerBlock_not_in: [BigInt!]
+    embrPerBlock: BigInt
+    embrPerBlock_gt: BigInt
+    embrPerBlock_gte: BigInt
+    embrPerBlock_in: [BigInt!]
+    embrPerBlock_lt: BigInt
+    embrPerBlock_lte: BigInt
+    embrPerBlock_not: BigInt
+    embrPerBlock_not_in: [BigInt!]
     block: BigInt
     block_gt: BigInt
     block_gte: BigInt
@@ -83,7 +83,7 @@ input MasterChef_filter {
 }
 
 enum MasterChef_orderBy {
-    beetsPerBlock
+    embrPerBlock
     block
     id
     poolCount
@@ -452,7 +452,7 @@ type Subscription {
 type User {
     address: Bytes!
     amount: BigInt!
-    beetsHarvested: BigInt!
+    embrHarvested: BigInt!
     block: BigInt!
     id: ID!
     pool: Pool
@@ -475,14 +475,14 @@ input User_filter {
     amount_lte: BigInt
     amount_not: BigInt
     amount_not_in: [BigInt!]
-    beetsHarvested: BigInt
-    beetsHarvested_gt: BigInt
-    beetsHarvested_gte: BigInt
-    beetsHarvested_in: [BigInt!]
-    beetsHarvested_lt: BigInt
-    beetsHarvested_lte: BigInt
-    beetsHarvested_not: BigInt
-    beetsHarvested_not_in: [BigInt!]
+    embrHarvested: BigInt
+    embrHarvested_gt: BigInt
+    embrHarvested_gte: BigInt
+    embrHarvested_in: [BigInt!]
+    embrHarvested_lt: BigInt
+    embrHarvested_lte: BigInt
+    embrHarvested_not: BigInt
+    embrHarvested_not_in: [BigInt!]
     block: BigInt
     block_gt: BigInt
     block_gte: BigInt
@@ -534,7 +534,7 @@ input User_filter {
 enum User_orderBy {
     address
     amount
-    beetsHarvested
+    embrHarvested
     block
     id
     pool

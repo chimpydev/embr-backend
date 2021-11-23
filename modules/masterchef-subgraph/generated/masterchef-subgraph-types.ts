@@ -24,7 +24,7 @@ export type Block_Height = {
 
 export type MasterChef = {
     __typename?: 'MasterChef';
-    beetsPerBlock: Scalars['BigInt'];
+    embrPerBlock: Scalars['BigInt'];
     block: Scalars['BigInt'];
     id: Scalars['ID'];
     poolCount: Scalars['BigInt'];
@@ -42,14 +42,14 @@ export type MasterChefPoolsArgs = {
 };
 
 export type MasterChef_Filter = {
-    beetsPerBlock?: Maybe<Scalars['BigInt']>;
-    beetsPerBlock_gt?: Maybe<Scalars['BigInt']>;
-    beetsPerBlock_gte?: Maybe<Scalars['BigInt']>;
-    beetsPerBlock_in?: Maybe<Array<Scalars['BigInt']>>;
-    beetsPerBlock_lt?: Maybe<Scalars['BigInt']>;
-    beetsPerBlock_lte?: Maybe<Scalars['BigInt']>;
-    beetsPerBlock_not?: Maybe<Scalars['BigInt']>;
-    beetsPerBlock_not_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrPerBlock?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_gt?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_gte?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrPerBlock_lt?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_lte?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_not?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_not_in?: Maybe<Array<Scalars['BigInt']>>;
     block?: Maybe<Scalars['BigInt']>;
     block_gt?: Maybe<Scalars['BigInt']>;
     block_gte?: Maybe<Scalars['BigInt']>;
@@ -93,7 +93,7 @@ export type MasterChef_Filter = {
 };
 
 export enum MasterChef_OrderBy {
-    BeetsPerBlock = 'beetsPerBlock',
+    BeetsPerBlock = 'embrPerBlock',
     Block = 'block',
     Id = 'id',
     PoolCount = 'poolCount',
@@ -457,7 +457,7 @@ export type User = {
     __typename?: 'User';
     address: Scalars['Bytes'];
     amount: Scalars['BigInt'];
-    beetsHarvested: Scalars['BigInt'];
+    embrHarvested: Scalars['BigInt'];
     block: Scalars['BigInt'];
     id: Scalars['ID'];
     pool?: Maybe<Pool>;
@@ -480,14 +480,14 @@ export type User_Filter = {
     amount_lte?: Maybe<Scalars['BigInt']>;
     amount_not?: Maybe<Scalars['BigInt']>;
     amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
-    beetsHarvested?: Maybe<Scalars['BigInt']>;
-    beetsHarvested_gt?: Maybe<Scalars['BigInt']>;
-    beetsHarvested_gte?: Maybe<Scalars['BigInt']>;
-    beetsHarvested_in?: Maybe<Array<Scalars['BigInt']>>;
-    beetsHarvested_lt?: Maybe<Scalars['BigInt']>;
-    beetsHarvested_lte?: Maybe<Scalars['BigInt']>;
-    beetsHarvested_not?: Maybe<Scalars['BigInt']>;
-    beetsHarvested_not_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrHarvested?: Maybe<Scalars['BigInt']>;
+    embrHarvested_gt?: Maybe<Scalars['BigInt']>;
+    embrHarvested_gte?: Maybe<Scalars['BigInt']>;
+    embrHarvested_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrHarvested_lt?: Maybe<Scalars['BigInt']>;
+    embrHarvested_lte?: Maybe<Scalars['BigInt']>;
+    embrHarvested_not?: Maybe<Scalars['BigInt']>;
+    embrHarvested_not_in?: Maybe<Array<Scalars['BigInt']>>;
     block?: Maybe<Scalars['BigInt']>;
     block_gt?: Maybe<Scalars['BigInt']>;
     block_gte?: Maybe<Scalars['BigInt']>;
@@ -539,7 +539,7 @@ export type User_Filter = {
 export enum User_OrderBy {
     Address = 'address',
     Amount = 'amount',
-    BeetsHarvested = 'beetsHarvested',
+    BeetsHarvested = 'embrHarvested',
     Block = 'block',
     Id = 'id',
     Pool = 'pool',
@@ -596,7 +596,7 @@ export type MasterchefUsersQuery = {
         address: string;
         amount: string;
         rewardDebt: string;
-        beetsHarvested: string;
+        embrHarvested: string;
         timestamp: string;
         pool?: { __typename?: 'Pool'; id: string; pair: string } | null | undefined;
     }>;
@@ -608,7 +608,7 @@ export type FarmUserFragment = {
     address: string;
     amount: string;
     rewardDebt: string;
-    beetsHarvested: string;
+    embrHarvested: string;
     timestamp: string;
     pool?: { __typename?: 'Pool'; id: string; pair: string } | null | undefined;
 };
@@ -627,7 +627,7 @@ export type MasterchefsQuery = {
     masterChefs: Array<{
         __typename?: 'MasterChef';
         id: string;
-        beetsPerBlock: string;
+        embrPerBlock: string;
         totalAllocPoint: string;
         poolCount: string;
         timestamp: string;
@@ -686,7 +686,7 @@ export type MasterchefPortfolioDataQuery = {
         address: string;
         amount: string;
         rewardDebt: string;
-        beetsHarvested: string;
+        embrHarvested: string;
         timestamp: string;
         pool?: { __typename?: 'Pool'; id: string; pair: string } | null | undefined;
     }>;
@@ -696,7 +696,7 @@ export type MasterchefPortfolioDataQuery = {
         address: string;
         amount: string;
         rewardDebt: string;
-        beetsHarvested: string;
+        embrHarvested: string;
         timestamp: string;
         pool?: { __typename?: 'Pool'; id: string; pair: string } | null | undefined;
     }>;
@@ -708,7 +708,7 @@ export const FarmUserFragmentDoc = gql`
         address
         amount
         rewardDebt
-        beetsHarvested
+        embrHarvested
         timestamp
         pool {
             id
@@ -769,7 +769,7 @@ export const MasterchefsDocument = gql`
             block: $block
         ) {
             id
-            beetsPerBlock
+            embrPerBlock
             totalAllocPoint
             poolCount
             timestamp

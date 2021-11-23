@@ -23,7 +23,7 @@ fragment FarmUser on User {
     address
     amount
     rewardDebt
-    beetsHarvested
+    embrHarvested
     timestamp
     pool {
         id
@@ -48,7 +48,7 @@ query Masterchefs(
         block: $block
     ) {
         id
-        beetsPerBlock
+        embrPerBlock
         totalAllocPoint
         poolCount
         timestamp
