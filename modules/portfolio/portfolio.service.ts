@@ -170,10 +170,10 @@ class PortfolioService {
                     shares: userNumShares,
                     percentShare: userPercentShare,
                     totalValue: userTotalValue,
-                    pricePerShare: userTotalValue / userNumShares,
+                    pricePerShare: Number.isNaN(userTotalValue / userNumShares) === true ? 0 : userTotalValue / userNumShares,
                     tokens: userTokens.map((token) => ({
                         ...token,
-                        percentOfPortfolio: token.totalValue / userTotalValue,
+                        percentOfPortfolio:  Number.isNaN(token.totalValue / userTotalValue) === true ? 0 : token.totalValue / userTotalValue,
                     })),
                     swapFees,
                     swapVolume: parseFloat(pool.totalSwapVolume) - parseFloat(previousPool.totalSwapVolume),
@@ -229,7 +229,7 @@ class PortfolioService {
                 ...group[0],
                 balance: _.sumBy(group, (token) => token.balance),
                 totalValue,
-                percentOfPortfolio: totalValue / poolsTotalValue,
+                percentOfPortfolio: Number.isNaN(totalValue / poolsTotalValue) === true ? 0 : totalValue / poolsTotalValue,
             };
         });
 
@@ -279,7 +279,7 @@ class PortfolioService {
             parseFloat(sharesOwned?.balance || '0') + fromFp(BigNumber.from(userFarm?.amount || 0)).toNumber();
         const poolTotalShares = parseFloat(pool.totalShares);
         const poolTotalValue = this.getPoolValue(pool, tokenPrices);
-        const userPercentShare = userNumShares / poolTotalShares;
+        const userPercentShare =  Number.isNaN(userNumShares / poolTotalShares) === true ? 0 : userNumShares / poolTotalShares;
         const userTokens = _.orderBy(
             (pool.tokens || []).map((token) =>
                 this.mapPoolTokenToUserPoolTokenData(token, userPercentShare, tokenPrices),
@@ -294,7 +294,7 @@ class PortfolioService {
             userPercentShare,
             userTokens,
             userTotalValue,
-            pricePerShare: poolTotalValue / poolTotalShares,
+            pricePerShare: Number.isNaN(poolTotalValue / poolTotalShares) ? 0 : poolTotalValue / poolTotalShares,
             poolTotalValue,
             poolTotalShares,
         };
