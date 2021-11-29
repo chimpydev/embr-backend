@@ -11,13 +11,14 @@ scalar BigInt
 input Block_height {
     hash: Bytes
     number: Int
+    number_gte: Int
 }
 
 scalar Bytes
 
 type MasterChef {
-    embrPerBlock: BigInt!
     block: BigInt!
+    embrPerBlock: BigInt!
     id: ID!
     poolCount: BigInt!
     pools(
@@ -32,14 +33,6 @@ type MasterChef {
 }
 
 input MasterChef_filter {
-    embrPerBlock: BigInt
-    embrPerBlock_gt: BigInt
-    embrPerBlock_gte: BigInt
-    embrPerBlock_in: [BigInt!]
-    embrPerBlock_lt: BigInt
-    embrPerBlock_lte: BigInt
-    embrPerBlock_not: BigInt
-    embrPerBlock_not_in: [BigInt!]
     block: BigInt
     block_gt: BigInt
     block_gte: BigInt
@@ -48,6 +41,14 @@ input MasterChef_filter {
     block_lte: BigInt
     block_not: BigInt
     block_not_in: [BigInt!]
+    embrPerBlock: BigInt
+    embrPerBlock_gt: BigInt
+    embrPerBlock_gte: BigInt
+    embrPerBlock_in: [BigInt!]
+    embrPerBlock_lt: BigInt
+    embrPerBlock_lte: BigInt
+    embrPerBlock_not: BigInt
+    embrPerBlock_not_in: [BigInt!]
     id: ID
     id_gt: ID
     id_gte: ID
@@ -83,8 +84,8 @@ input MasterChef_filter {
 }
 
 enum MasterChef_orderBy {
-    embrPerBlock
     block
+    embrPerBlock
     id
     poolCount
     pools
@@ -98,7 +99,7 @@ enum OrderDirection {
 }
 
 type Pool {
-    accBeetsPerShare: BigInt!
+    accEmbrPerShare: BigInt!
     allocPoint: BigInt!
     block: BigInt!
     id: ID!
@@ -119,14 +120,14 @@ type Pool {
 }
 
 input Pool_filter {
-    accBeetsPerShare: BigInt
-    accBeetsPerShare_gt: BigInt
-    accBeetsPerShare_gte: BigInt
-    accBeetsPerShare_in: [BigInt!]
-    accBeetsPerShare_lt: BigInt
-    accBeetsPerShare_lte: BigInt
-    accBeetsPerShare_not: BigInt
-    accBeetsPerShare_not_in: [BigInt!]
+    accEmbrPerShare: BigInt
+    accEmbrPerShare_gt: BigInt
+    accEmbrPerShare_gte: BigInt
+    accEmbrPerShare_in: [BigInt!]
+    accEmbrPerShare_lt: BigInt
+    accEmbrPerShare_lte: BigInt
+    accEmbrPerShare_not: BigInt
+    accEmbrPerShare_not_in: [BigInt!]
     allocPoint: BigInt
     allocPoint_gt: BigInt
     allocPoint_gte: BigInt
@@ -220,7 +221,7 @@ input Pool_filter {
 }
 
 enum Pool_orderBy {
-    accBeetsPerShare
+    accEmbrPerShare
     allocPoint
     block
     id
@@ -241,74 +242,114 @@ type Query {
     _meta(block: Block_height): _Meta_
     masterChef(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): MasterChef
     masterChefs(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: MasterChef_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: MasterChef_filter
     ): [MasterChef!]!
     pool(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): Pool
     pools(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: Pool_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: Pool_filter
     ): [Pool!]!
     rewarder(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): Rewarder
     rewarders(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: Rewarder_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: Rewarder_filter
     ): [Rewarder!]!
     user(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): User
     users(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: User_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: User_filter
     ): [User!]!
 }
@@ -377,74 +418,114 @@ type Subscription {
     _meta(block: Block_height): _Meta_
     masterChef(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): MasterChef
     masterChefs(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: MasterChef_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: MasterChef_filter
     ): [MasterChef!]!
     pool(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): Pool
     pools(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: Pool_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: Pool_filter
     ): [Pool!]!
     rewarder(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): Rewarder
     rewarders(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: Rewarder_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: Rewarder_filter
     ): [Rewarder!]!
     user(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
     ): User
     users(
         """
-        The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
         """
         block: Block_height
         first: Int = 100
         orderBy: User_orderBy
         orderDirection: OrderDirection
         skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
         where: User_filter
     ): [User!]!
 }
@@ -452,8 +533,8 @@ type Subscription {
 type User {
     address: Bytes!
     amount: BigInt!
-    embrHarvested: BigInt!
     block: BigInt!
+    embrHarvested: BigInt!
     id: ID!
     pool: Pool
     rewardDebt: BigInt!
@@ -475,14 +556,6 @@ input User_filter {
     amount_lte: BigInt
     amount_not: BigInt
     amount_not_in: [BigInt!]
-    embrHarvested: BigInt
-    embrHarvested_gt: BigInt
-    embrHarvested_gte: BigInt
-    embrHarvested_in: [BigInt!]
-    embrHarvested_lt: BigInt
-    embrHarvested_lte: BigInt
-    embrHarvested_not: BigInt
-    embrHarvested_not_in: [BigInt!]
     block: BigInt
     block_gt: BigInt
     block_gte: BigInt
@@ -491,6 +564,14 @@ input User_filter {
     block_lte: BigInt
     block_not: BigInt
     block_not_in: [BigInt!]
+    embrHarvested: BigInt
+    embrHarvested_gt: BigInt
+    embrHarvested_gte: BigInt
+    embrHarvested_in: [BigInt!]
+    embrHarvested_lt: BigInt
+    embrHarvested_lte: BigInt
+    embrHarvested_not: BigInt
+    embrHarvested_not_in: [BigInt!]
     id: ID
     id_gt: ID
     id_gte: ID
@@ -534,8 +615,8 @@ input User_filter {
 enum User_orderBy {
     address
     amount
-    embrHarvested
     block
+    embrHarvested
     id
     pool
     rewardDebt
@@ -552,6 +633,11 @@ type _Block_ {
     The block number
     """
     number: Int!
+
+    """
+    The minimum block number
+    """
+    number_gte: Int!
 }
 
 """

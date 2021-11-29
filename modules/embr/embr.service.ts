@@ -5,7 +5,7 @@ import embrAbi from './abi/EmbrToken.json';
 
 const INITIAL_MINT = fp(5_000_000);
 
-class BeetsService {
+class EmbrService {
     private readonly embrContract: Contract;
     constructor() {
         this.embrContract = ethersService.getContractAt(process.env.EMBR_ADDRESS!, embrAbi);
@@ -17,4 +17,4 @@ class BeetsService {
     }
 }
 
-export const embrService = new BeetsService();
+export const embrService = new EmbrService();

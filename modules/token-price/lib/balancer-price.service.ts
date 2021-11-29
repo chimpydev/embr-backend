@@ -8,24 +8,53 @@ export class BalancerPriceService {
     public async getTokenPrices(addresses: string[], coingeckoPrices: TokenPrices): Promise<TokenPrices> {
         const balancerTokenPrices: TokenPrices = {};
 
+       
         const { tokenPrices } = await balancerService.getTokenPrices({
             first: 1000, //TODO: this could stop working at some point
             orderBy: TokenPrice_OrderBy.Timestamp,
             orderDirection: OrderDirection.Desc,
             where: { asset_in: addresses },
         });
-
+        console.log("getting balacner prices", addresses)
+        console.log("getting balacner prices", tokenPrices)
         for (const address of addresses) {
-            const tokenPrice = tokenPrices.find((tokenPrice) => tokenPrice.asset === address);
+            console.log("checking price for address", address)
+            const tokenPrice = tokenPrices.find((tokenPrice) => {
+                return tokenPrice.asset === address 
+            });
 
+            //console.log("found token price a)", tokenPrice)
             if (tokenPrice) {
+                console.log("found token price")
+
+                const usdValue = coingeckoPrices[this.swapAddress(tokenPrice.pricingAsset)] ? coingeckoPrices[this.swapAddress(tokenPrice.pricingAsset)].usd : 0
                 balancerTokenPrices[address] = {
-                    usd: (coingeckoPrices[tokenPrice.pricingAsset].usd || 0) * parseFloat(tokenPrice.price),
+                    usd: usdValue * parseFloat(tokenPrice.price),
                 };
+
+                console.log("set token price", address, tokenPrice.pricingAsset, balancerTokenPrices[address])
+                console.log()
             }
         }
 
         return balancerTokenPrices;
+    }
+
+    public swapAddress(address: string): string { 
+        switch(address) { 
+            case "0xcbb327140e91039a3f4e8ecf144b0f12238d6fdd":
+                return "0x78ea17559b3d2cf85a7f9c2c704eda119db5e6de"
+            case "0xfb8fa9f5f0bd47591ba6f7c75fe519e3e8fde429":
+                return "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664"
+            case "0x4b20b17bdb9991a8549f5ceb8bd813419e537209":
+                return "0xd586e7f844cea2f87f50152665bcbc2c279d8d70"
+            case "0xd00ae08403b9bbb9124bb305c09058e32c39a48c":
+                return "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
+            case "0xee67880a6aaba39c5eaf833b68ea5fd908dc008d":
+                return "0x78ea17559b3d2cf85a7f9c2c704eda119db5e6de"
+            default:
+                return address
+        }
     }
 
     public async getHistoricalTokenPrices({

@@ -189,6 +189,7 @@ export type Block_Filter = {
 export type Block_Height = {
     hash?: Maybe<Scalars['Bytes']>;
     number?: Maybe<Scalars['Int']>;
+    number_gte?: Maybe<Scalars['Int']>;
 };
 
 export enum Block_OrderBy {
@@ -228,6 +229,7 @@ export type Query_MetaArgs = {
 export type QueryBlockArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryBlocksArgs = {
@@ -236,6 +238,7 @@ export type QueryBlocksArgs = {
     orderBy?: Maybe<Block_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<Block_Filter>;
 };
 
@@ -254,6 +257,7 @@ export type Subscription_MetaArgs = {
 export type SubscriptionBlockArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionBlocksArgs = {
@@ -262,6 +266,7 @@ export type SubscriptionBlocksArgs = {
     orderBy?: Maybe<Block_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<Block_Filter>;
 };
 
@@ -271,6 +276,8 @@ export type _Block_ = {
     hash?: Maybe<Scalars['Bytes']>;
     /** The block number */
     number: Scalars['Int'];
+    /** The minimum block number */
+    number_gte: Scalars['Int'];
 };
 
 /** The type for the top-level _meta field */

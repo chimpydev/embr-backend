@@ -3,8 +3,7 @@ export const balancerTokenMappings: {
     tokenSymbolOverwrites: { [oldSymbol: string]: string };
 } = {
     balancerPricedTokens: [
-        /*
-        '0xf24bcf4d1e507740041c9cfd2dddb29585adce1e',
+        /*'0xf24bcf4d1e507740041c9cfd2dddb29585adce1e',
         '0x33be3a1df0e2f4124e76ee829adf7ff53a95bca6',
         '0x5b115563844ec6fb1725660967bdb9a014e36545',
         '0x9a4cc410dc584c81ea1796b42e8d8aa04cab13cf',

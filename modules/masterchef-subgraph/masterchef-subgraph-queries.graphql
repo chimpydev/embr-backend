@@ -81,7 +81,7 @@ fragment Farm on Pool {
     pair
     allocPoint
     lastRewardBlock
-    accBeetsPerShare
+    accEmbrPerShare
     slpBalance
     userCount
     timestamp

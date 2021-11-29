@@ -20,12 +20,13 @@ export type Scalars = {
 export type Block_Height = {
     hash?: Maybe<Scalars['Bytes']>;
     number?: Maybe<Scalars['Int']>;
+    number_gte?: Maybe<Scalars['Int']>;
 };
 
 export type MasterChef = {
     __typename?: 'MasterChef';
-    embrPerBlock: Scalars['BigInt'];
     block: Scalars['BigInt'];
+    embrPerBlock: Scalars['BigInt'];
     id: Scalars['ID'];
     poolCount: Scalars['BigInt'];
     pools?: Maybe<Array<Pool>>;
@@ -42,14 +43,6 @@ export type MasterChefPoolsArgs = {
 };
 
 export type MasterChef_Filter = {
-    embrPerBlock?: Maybe<Scalars['BigInt']>;
-    embrPerBlock_gt?: Maybe<Scalars['BigInt']>;
-    embrPerBlock_gte?: Maybe<Scalars['BigInt']>;
-    embrPerBlock_in?: Maybe<Array<Scalars['BigInt']>>;
-    embrPerBlock_lt?: Maybe<Scalars['BigInt']>;
-    embrPerBlock_lte?: Maybe<Scalars['BigInt']>;
-    embrPerBlock_not?: Maybe<Scalars['BigInt']>;
-    embrPerBlock_not_in?: Maybe<Array<Scalars['BigInt']>>;
     block?: Maybe<Scalars['BigInt']>;
     block_gt?: Maybe<Scalars['BigInt']>;
     block_gte?: Maybe<Scalars['BigInt']>;
@@ -58,6 +51,14 @@ export type MasterChef_Filter = {
     block_lte?: Maybe<Scalars['BigInt']>;
     block_not?: Maybe<Scalars['BigInt']>;
     block_not_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrPerBlock?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_gt?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_gte?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrPerBlock_lt?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_lte?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_not?: Maybe<Scalars['BigInt']>;
+    embrPerBlock_not_in?: Maybe<Array<Scalars['BigInt']>>;
     id?: Maybe<Scalars['ID']>;
     id_gt?: Maybe<Scalars['ID']>;
     id_gte?: Maybe<Scalars['ID']>;
@@ -93,8 +94,8 @@ export type MasterChef_Filter = {
 };
 
 export enum MasterChef_OrderBy {
-    BeetsPerBlock = 'embrPerBlock',
     Block = 'block',
+    EmbrPerBlock = 'embrPerBlock',
     Id = 'id',
     PoolCount = 'poolCount',
     Pools = 'pools',
@@ -109,7 +110,7 @@ export enum OrderDirection {
 
 export type Pool = {
     __typename?: 'Pool';
-    accBeetsPerShare: Scalars['BigInt'];
+    accEmbrPerShare: Scalars['BigInt'];
     allocPoint: Scalars['BigInt'];
     block: Scalars['BigInt'];
     id: Scalars['ID'];
@@ -132,14 +133,14 @@ export type PoolUsersArgs = {
 };
 
 export type Pool_Filter = {
-    accBeetsPerShare?: Maybe<Scalars['BigInt']>;
-    accBeetsPerShare_gt?: Maybe<Scalars['BigInt']>;
-    accBeetsPerShare_gte?: Maybe<Scalars['BigInt']>;
-    accBeetsPerShare_in?: Maybe<Array<Scalars['BigInt']>>;
-    accBeetsPerShare_lt?: Maybe<Scalars['BigInt']>;
-    accBeetsPerShare_lte?: Maybe<Scalars['BigInt']>;
-    accBeetsPerShare_not?: Maybe<Scalars['BigInt']>;
-    accBeetsPerShare_not_in?: Maybe<Array<Scalars['BigInt']>>;
+    accEmbrPerShare?: Maybe<Scalars['BigInt']>;
+    accEmbrPerShare_gt?: Maybe<Scalars['BigInt']>;
+    accEmbrPerShare_gte?: Maybe<Scalars['BigInt']>;
+    accEmbrPerShare_in?: Maybe<Array<Scalars['BigInt']>>;
+    accEmbrPerShare_lt?: Maybe<Scalars['BigInt']>;
+    accEmbrPerShare_lte?: Maybe<Scalars['BigInt']>;
+    accEmbrPerShare_not?: Maybe<Scalars['BigInt']>;
+    accEmbrPerShare_not_in?: Maybe<Array<Scalars['BigInt']>>;
     allocPoint?: Maybe<Scalars['BigInt']>;
     allocPoint_gt?: Maybe<Scalars['BigInt']>;
     allocPoint_gte?: Maybe<Scalars['BigInt']>;
@@ -233,7 +234,7 @@ export type Pool_Filter = {
 };
 
 export enum Pool_OrderBy {
-    AccBeetsPerShare = 'accBeetsPerShare',
+    AccEmbrPerShare = 'accEmbrPerShare',
     AllocPoint = 'allocPoint',
     Block = 'block',
     Id = 'id',
@@ -268,6 +269,7 @@ export type Query_MetaArgs = {
 export type QueryMasterChefArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryMasterChefsArgs = {
@@ -276,12 +278,14 @@ export type QueryMasterChefsArgs = {
     orderBy?: Maybe<MasterChef_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<MasterChef_Filter>;
 };
 
 export type QueryPoolArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryPoolsArgs = {
@@ -290,12 +294,14 @@ export type QueryPoolsArgs = {
     orderBy?: Maybe<Pool_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<Pool_Filter>;
 };
 
 export type QueryRewarderArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryRewardersArgs = {
@@ -304,12 +310,14 @@ export type QueryRewardersArgs = {
     orderBy?: Maybe<Rewarder_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<Rewarder_Filter>;
 };
 
 export type QueryUserArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type QueryUsersArgs = {
@@ -318,6 +326,7 @@ export type QueryUsersArgs = {
     orderBy?: Maybe<User_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<User_Filter>;
 };
 
@@ -400,6 +409,7 @@ export type Subscription_MetaArgs = {
 export type SubscriptionMasterChefArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionMasterChefsArgs = {
@@ -408,12 +418,14 @@ export type SubscriptionMasterChefsArgs = {
     orderBy?: Maybe<MasterChef_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<MasterChef_Filter>;
 };
 
 export type SubscriptionPoolArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionPoolsArgs = {
@@ -422,12 +434,14 @@ export type SubscriptionPoolsArgs = {
     orderBy?: Maybe<Pool_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<Pool_Filter>;
 };
 
 export type SubscriptionRewarderArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionRewardersArgs = {
@@ -436,12 +450,14 @@ export type SubscriptionRewardersArgs = {
     orderBy?: Maybe<Rewarder_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<Rewarder_Filter>;
 };
 
 export type SubscriptionUserArgs = {
     block?: Maybe<Block_Height>;
     id: Scalars['ID'];
+    subgraphError?: _SubgraphErrorPolicy_;
 };
 
 export type SubscriptionUsersArgs = {
@@ -450,6 +466,7 @@ export type SubscriptionUsersArgs = {
     orderBy?: Maybe<User_OrderBy>;
     orderDirection?: Maybe<OrderDirection>;
     skip?: Maybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: Maybe<User_Filter>;
 };
 
@@ -457,8 +474,8 @@ export type User = {
     __typename?: 'User';
     address: Scalars['Bytes'];
     amount: Scalars['BigInt'];
-    embrHarvested: Scalars['BigInt'];
     block: Scalars['BigInt'];
+    embrHarvested: Scalars['BigInt'];
     id: Scalars['ID'];
     pool?: Maybe<Pool>;
     rewardDebt: Scalars['BigInt'];
@@ -480,14 +497,6 @@ export type User_Filter = {
     amount_lte?: Maybe<Scalars['BigInt']>;
     amount_not?: Maybe<Scalars['BigInt']>;
     amount_not_in?: Maybe<Array<Scalars['BigInt']>>;
-    embrHarvested?: Maybe<Scalars['BigInt']>;
-    embrHarvested_gt?: Maybe<Scalars['BigInt']>;
-    embrHarvested_gte?: Maybe<Scalars['BigInt']>;
-    embrHarvested_in?: Maybe<Array<Scalars['BigInt']>>;
-    embrHarvested_lt?: Maybe<Scalars['BigInt']>;
-    embrHarvested_lte?: Maybe<Scalars['BigInt']>;
-    embrHarvested_not?: Maybe<Scalars['BigInt']>;
-    embrHarvested_not_in?: Maybe<Array<Scalars['BigInt']>>;
     block?: Maybe<Scalars['BigInt']>;
     block_gt?: Maybe<Scalars['BigInt']>;
     block_gte?: Maybe<Scalars['BigInt']>;
@@ -496,6 +505,14 @@ export type User_Filter = {
     block_lte?: Maybe<Scalars['BigInt']>;
     block_not?: Maybe<Scalars['BigInt']>;
     block_not_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrHarvested?: Maybe<Scalars['BigInt']>;
+    embrHarvested_gt?: Maybe<Scalars['BigInt']>;
+    embrHarvested_gte?: Maybe<Scalars['BigInt']>;
+    embrHarvested_in?: Maybe<Array<Scalars['BigInt']>>;
+    embrHarvested_lt?: Maybe<Scalars['BigInt']>;
+    embrHarvested_lte?: Maybe<Scalars['BigInt']>;
+    embrHarvested_not?: Maybe<Scalars['BigInt']>;
+    embrHarvested_not_in?: Maybe<Array<Scalars['BigInt']>>;
     id?: Maybe<Scalars['ID']>;
     id_gt?: Maybe<Scalars['ID']>;
     id_gte?: Maybe<Scalars['ID']>;
@@ -539,8 +556,8 @@ export type User_Filter = {
 export enum User_OrderBy {
     Address = 'address',
     Amount = 'amount',
-    BeetsHarvested = 'embrHarvested',
     Block = 'block',
+    EmbrHarvested = 'embrHarvested',
     Id = 'id',
     Pool = 'pool',
     RewardDebt = 'rewardDebt',
@@ -553,6 +570,8 @@ export type _Block_ = {
     hash?: Maybe<Scalars['Bytes']>;
     /** The block number */
     number: Scalars['Int'];
+    /** The minimum block number */
+    number_gte: Scalars['Int'];
 };
 
 /** The type for the top-level _meta field */
@@ -652,7 +671,7 @@ export type MasterchefFarmsQuery = {
         pair: string;
         allocPoint: string;
         lastRewardBlock: string;
-        accBeetsPerShare: string;
+        accEmbrPerShare: string;
         slpBalance: string;
         userCount: string;
         timestamp: string;
@@ -666,7 +685,7 @@ export type FarmFragment = {
     pair: string;
     allocPoint: string;
     lastRewardBlock: string;
-    accBeetsPerShare: string;
+    accEmbrPerShare: string;
     slpBalance: string;
     userCount: string;
     timestamp: string;
@@ -722,7 +741,7 @@ export const FarmFragmentDoc = gql`
         pair
         allocPoint
         lastRewardBlock
-        accBeetsPerShare
+        accEmbrPerShare
         slpBalance
         userCount
         timestamp
