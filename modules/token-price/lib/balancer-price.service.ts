@@ -15,8 +15,8 @@ export class BalancerPriceService {
             orderDirection: OrderDirection.Desc,
             where: { asset_in: addresses },
         });
-        console.log("getting balacner prices", addresses)
-        console.log("getting balacner prices", tokenPrices)
+
+        console.log('coin gecko prices', coingeckoPrices);
         for (const address of addresses) {
             console.log("checking price for address", address)
             const tokenPrice = tokenPrices.find((tokenPrice) => {
@@ -25,15 +25,15 @@ export class BalancerPriceService {
 
             //console.log("found token price a)", tokenPrice)
             if (tokenPrice) {
-                console.log("found token price")
-
-                const usdValue = coingeckoPrices[this.swapAddress(tokenPrice.pricingAsset)] ? coingeckoPrices[this.swapAddress(tokenPrice.pricingAsset)].usd : 0
-                balancerTokenPrices[address] = {
-                    usd: usdValue * parseFloat(tokenPrice.price),
-                };
-
-                console.log("set token price", address, tokenPrice.pricingAsset, balancerTokenPrices[address])
-                console.log()
+                if (coingeckoPrices[this.swapAddress(tokenPrice.pricingAsset)]) {
+                    balancerTokenPrices[address] = {
+                        usd: (coingeckoPrices[this.swapAddress(tokenPrice.pricingAsset)]?.usd || 0) * parseFloat(tokenPrice.price),
+                    };
+                } else {
+                    balancerTokenPrices[address] = {
+                        usd: parseFloat(tokenPrice.priceUSD),
+                    };
+                }
             }
         }
 
