@@ -286,11 +286,6 @@ type _Block_ {
     The block number
     """
     number: Int!
-
-    """
-    The minimum block number
-    """
-    number_gte: Int!
 }
 
 """

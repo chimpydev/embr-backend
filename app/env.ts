@@ -19,10 +19,10 @@ export const schema = {
     COINGECKO_PLATFORM_ID: String,
     EMBR_ADDRESS: String,
     SUBGRAPH_START_DATE: String,
-    BEETS_BAR_SUBGRAPH: String,
-    FBEETS_ADDRESS: String,
-    FBEETS_POOL_ID: String,
-    FBEETS_FARM_ID: String,
+    EMBR_PIT_SUBGRAPH: String,
+    CEMBR_ADDRESS: String,
+    CEMBR_POOL_ID: String,
+    CEMBR_FARM_ID: String,
     ADMIN_API_KEY: String,
 };
 

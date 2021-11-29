@@ -8,8 +8,8 @@ type Bar {
     address: Bytes!
     block: BigInt!
     decimals: Int!
-    fBeetsBurned: BigDecimal!
-    fBeetsMinted: BigDecimal!
+    cEmbrBurned: BigDecimal!
+    cEmbrMinted: BigDecimal!
     id: ID!
     name: String!
     ratio: BigDecimal!
@@ -51,22 +51,22 @@ input Bar_filter {
     decimals_lte: Int
     decimals_not: Int
     decimals_not_in: [Int!]
-    fBeetsBurned: BigDecimal
-    fBeetsBurned_gt: BigDecimal
-    fBeetsBurned_gte: BigDecimal
-    fBeetsBurned_in: [BigDecimal!]
-    fBeetsBurned_lt: BigDecimal
-    fBeetsBurned_lte: BigDecimal
-    fBeetsBurned_not: BigDecimal
-    fBeetsBurned_not_in: [BigDecimal!]
-    fBeetsMinted: BigDecimal
-    fBeetsMinted_gt: BigDecimal
-    fBeetsMinted_gte: BigDecimal
-    fBeetsMinted_in: [BigDecimal!]
-    fBeetsMinted_lt: BigDecimal
-    fBeetsMinted_lte: BigDecimal
-    fBeetsMinted_not: BigDecimal
-    fBeetsMinted_not_in: [BigDecimal!]
+    cEmbrBurned: BigDecimal
+    cEmbrBurned_gt: BigDecimal
+    cEmbrBurned_gte: BigDecimal
+    cEmbrBurned_in: [BigDecimal!]
+    cEmbrBurned_lt: BigDecimal
+    cEmbrBurned_lte: BigDecimal
+    cEmbrBurned_not: BigDecimal
+    cEmbrBurned_not_in: [BigDecimal!]
+    cEmbrMinted: BigDecimal
+    cEmbrMinted_gt: BigDecimal
+    cEmbrMinted_gte: BigDecimal
+    cEmbrMinted_in: [BigDecimal!]
+    cEmbrMinted_lt: BigDecimal
+    cEmbrMinted_lte: BigDecimal
+    cEmbrMinted_not: BigDecimal
+    cEmbrMinted_not_in: [BigDecimal!]
     id: ID
     id_gt: ID
     id_gte: ID
@@ -155,8 +155,8 @@ enum Bar_orderBy {
     address
     block
     decimals
-    fBeetsBurned
-    fBeetsMinted
+    cEmbrBurned
+    cEmbrMinted
     id
     name
     ratio
@@ -190,14 +190,14 @@ type Query {
     Access to subgraph metadata
     """
     _meta(block: Block_height): _Meta_
-    bar(
+    pit(
         """
         The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
     ): Bar
-    bars(
+    pits(
         """
         The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
         """
@@ -233,14 +233,14 @@ type Subscription {
     Access to subgraph metadata
     """
     _meta(block: Block_height): _Meta_
-    bar(
+    pit(
         """
         The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
         """
         block: Block_height
         id: ID!
     ): Bar
-    bars(
+    pits(
         """
         The block at which the query should be executed. Can either be an `{ number: Int }` containing the block number or a `{ hash: Bytes }` value containing a block hash. Defaults to the latest block when omitted.
         """
@@ -273,9 +273,9 @@ type Subscription {
 
 type User {
     address: Bytes!
-    bar: Bar
+    pit: Bar
     block: BigInt!
-    fBeets: BigDecimal!
+    cEmbr: BigDecimal!
     id: ID!
     timestamp: BigInt!
     vestingTokenHarvested: BigDecimal!
@@ -290,20 +290,20 @@ input User_filter {
     address_not: Bytes
     address_not_contains: Bytes
     address_not_in: [Bytes!]
-    bar: String
-    bar_contains: String
-    bar_ends_with: String
-    bar_gt: String
-    bar_gte: String
-    bar_in: [String!]
-    bar_lt: String
-    bar_lte: String
-    bar_not: String
-    bar_not_contains: String
-    bar_not_ends_with: String
-    bar_not_in: [String!]
-    bar_not_starts_with: String
-    bar_starts_with: String
+    pit: String
+    pit_contains: String
+    pit_ends_with: String
+    pit_gt: String
+    pit_gte: String
+    pit_in: [String!]
+    pit_lt: String
+    pit_lte: String
+    pit_not: String
+    pit_not_contains: String
+    pit_not_ends_with: String
+    pit_not_in: [String!]
+    pit_not_starts_with: String
+    pit_starts_with: String
     block: BigInt
     block_gt: BigInt
     block_gte: BigInt
@@ -312,14 +312,14 @@ input User_filter {
     block_lte: BigInt
     block_not: BigInt
     block_not_in: [BigInt!]
-    fBeets: BigDecimal
-    fBeets_gt: BigDecimal
-    fBeets_gte: BigDecimal
-    fBeets_in: [BigDecimal!]
-    fBeets_lt: BigDecimal
-    fBeets_lte: BigDecimal
-    fBeets_not: BigDecimal
-    fBeets_not_in: [BigDecimal!]
+    cEmbr: BigDecimal
+    cEmbr_gt: BigDecimal
+    cEmbr_gte: BigDecimal
+    cEmbr_in: [BigDecimal!]
+    cEmbr_lt: BigDecimal
+    cEmbr_lte: BigDecimal
+    cEmbr_not: BigDecimal
+    cEmbr_not_in: [BigDecimal!]
     id: ID
     id_gt: ID
     id_gte: ID
@@ -364,9 +364,9 @@ input User_filter {
 
 enum User_orderBy {
     address
-    bar
+    pit
     block
-    fBeets
+    cEmbr
     id
     timestamp
     vestingTokenHarvested

@@ -1,0 +1,75 @@
+query GetEmbrPit($id: ID!, $block: Block_height) {
+    pit(id: $id, block: $block) {
+        ...EmbrPit
+    }
+}
+
+query GetEmbrPitUser($id: ID!, $block: Block_height) {
+    user(id: $id, block: $block) {
+        ...EmbrPitUser
+    }
+}
+
+query EmbrPitUsers(
+    $skip: Int
+    $first: Int
+    $orderBy: User_orderBy
+    $orderDirection: OrderDirection
+    $where: User_filter
+    $block: Block_height
+) {
+    users(
+        skip: $skip
+        first: $first
+        orderBy: $orderBy
+        orderDirection: $orderDirection
+        where: $where
+        block: $block
+    ) {
+        ...EmbrPitUser
+    }
+}
+
+fragment EmbrPit on Bar {
+    id
+    address
+    block
+    decimals
+    cEmbrBurned
+    cEmbrMinted
+    name
+    ratio
+    sharedVestingTokenRevenue
+    symbol
+    timestamp
+    totalSupply
+    vestingToken
+    vestingTokenStaked
+}
+
+fragment EmbrPitUser on User {
+    id
+    address
+    block
+    cEmbr
+    timestamp
+    vestingTokenHarvested
+    vestingTokenIn
+    vestingTokenOut
+}
+
+query EmbrPitPortfolioData($pitId: ID!, $userAddress: ID!, $previousBlockNumber: Int!) {
+    embrBar: pit(id: $pitId) {
+        ...EmbrPit
+    }
+    previousEmbrPit: pit(id: $pitId, block: { number: $previousBlockNumber }) {
+        ...EmbrPit
+    }
+
+    embrBarUser: user(id: $userAddress) {
+        ...EmbrPitUser
+    }
+    previousEmbrPitUser: user(id: $userAddress, block: { number: $previousBlockNumber }) {
+        ...EmbrPitUser
+    }
+}

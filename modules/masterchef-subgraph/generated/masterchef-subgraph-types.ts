@@ -21,6 +21,7 @@ export type Scalars = {
 export type Block_Height = {
     hash?: InputMaybe<Scalars['Bytes']>;
     number?: InputMaybe<Scalars['Int']>;
+    number_gte?: InputMaybe<Scalars['Int']>;
 };
 
 export type MasterChef = {
@@ -43,14 +44,6 @@ export type MasterChefPoolsArgs = {
 };
 
 export type MasterChef_Filter = {
-    beetsPerBlock?: InputMaybe<Scalars['BigInt']>;
-    beetsPerBlock_gt?: InputMaybe<Scalars['BigInt']>;
-    beetsPerBlock_gte?: InputMaybe<Scalars['BigInt']>;
-    beetsPerBlock_in?: InputMaybe<Array<Scalars['BigInt']>>;
-    beetsPerBlock_lt?: InputMaybe<Scalars['BigInt']>;
-    beetsPerBlock_lte?: InputMaybe<Scalars['BigInt']>;
-    beetsPerBlock_not?: InputMaybe<Scalars['BigInt']>;
-    beetsPerBlock_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
     block?: InputMaybe<Scalars['BigInt']>;
     block_gt?: InputMaybe<Scalars['BigInt']>;
     block_gte?: InputMaybe<Scalars['BigInt']>;
@@ -59,6 +52,14 @@ export type MasterChef_Filter = {
     block_lte?: InputMaybe<Scalars['BigInt']>;
     block_not?: InputMaybe<Scalars['BigInt']>;
     block_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    embrPerBlock?: InputMaybe<Scalars['BigInt']>;
+    embrPerBlock_gt?: InputMaybe<Scalars['BigInt']>;
+    embrPerBlock_gte?: InputMaybe<Scalars['BigInt']>;
+    embrPerBlock_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    embrPerBlock_lt?: InputMaybe<Scalars['BigInt']>;
+    embrPerBlock_lte?: InputMaybe<Scalars['BigInt']>;
+    embrPerBlock_not?: InputMaybe<Scalars['BigInt']>;
+    embrPerBlock_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
     id?: InputMaybe<Scalars['ID']>;
     id_gt?: InputMaybe<Scalars['ID']>;
     id_gte?: InputMaybe<Scalars['ID']>;
@@ -133,14 +134,14 @@ export type PoolUsersArgs = {
 };
 
 export type Pool_Filter = {
-    accBeetsPerShare?: InputMaybe<Scalars['BigInt']>;
-    accBeetsPerShare_gt?: InputMaybe<Scalars['BigInt']>;
-    accBeetsPerShare_gte?: InputMaybe<Scalars['BigInt']>;
-    accBeetsPerShare_in?: InputMaybe<Array<Scalars['BigInt']>>;
-    accBeetsPerShare_lt?: InputMaybe<Scalars['BigInt']>;
-    accBeetsPerShare_lte?: InputMaybe<Scalars['BigInt']>;
-    accBeetsPerShare_not?: InputMaybe<Scalars['BigInt']>;
-    accBeetsPerShare_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    accEmbrPerShare?: InputMaybe<Scalars['BigInt']>;
+    accEmbrPerShare_gt?: InputMaybe<Scalars['BigInt']>;
+    accEmbrPerShare_gte?: InputMaybe<Scalars['BigInt']>;
+    accEmbrPerShare_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    accEmbrPerShare_lt?: InputMaybe<Scalars['BigInt']>;
+    accEmbrPerShare_lte?: InputMaybe<Scalars['BigInt']>;
+    accEmbrPerShare_not?: InputMaybe<Scalars['BigInt']>;
+    accEmbrPerShare_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
     allocPoint?: InputMaybe<Scalars['BigInt']>;
     allocPoint_gt?: InputMaybe<Scalars['BigInt']>;
     allocPoint_gte?: InputMaybe<Scalars['BigInt']>;
@@ -278,6 +279,7 @@ export type QueryMasterChefsArgs = {
     orderBy?: InputMaybe<MasterChef_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<MasterChef_Filter>;
 };
 
@@ -293,6 +295,7 @@ export type QueryPoolsArgs = {
     orderBy?: InputMaybe<Pool_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<Pool_Filter>;
 };
 
@@ -308,6 +311,7 @@ export type QueryRewardersArgs = {
     orderBy?: InputMaybe<Rewarder_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<Rewarder_Filter>;
 };
 
@@ -323,6 +327,7 @@ export type QueryUsersArgs = {
     orderBy?: InputMaybe<User_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<User_Filter>;
 };
 
@@ -414,6 +419,7 @@ export type SubscriptionMasterChefsArgs = {
     orderBy?: InputMaybe<MasterChef_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<MasterChef_Filter>;
 };
 
@@ -429,6 +435,7 @@ export type SubscriptionPoolsArgs = {
     orderBy?: InputMaybe<Pool_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<Pool_Filter>;
 };
 
@@ -444,6 +451,7 @@ export type SubscriptionRewardersArgs = {
     orderBy?: InputMaybe<Rewarder_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<Rewarder_Filter>;
 };
 
@@ -459,6 +467,7 @@ export type SubscriptionUsersArgs = {
     orderBy?: InputMaybe<User_OrderBy>;
     orderDirection?: InputMaybe<OrderDirection>;
     skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<User_Filter>;
 };
 
@@ -489,14 +498,6 @@ export type User_Filter = {
     amount_lte?: InputMaybe<Scalars['BigInt']>;
     amount_not?: InputMaybe<Scalars['BigInt']>;
     amount_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-    beetsHarvested?: InputMaybe<Scalars['BigInt']>;
-    beetsHarvested_gt?: InputMaybe<Scalars['BigInt']>;
-    beetsHarvested_gte?: InputMaybe<Scalars['BigInt']>;
-    beetsHarvested_in?: InputMaybe<Array<Scalars['BigInt']>>;
-    beetsHarvested_lt?: InputMaybe<Scalars['BigInt']>;
-    beetsHarvested_lte?: InputMaybe<Scalars['BigInt']>;
-    beetsHarvested_not?: InputMaybe<Scalars['BigInt']>;
-    beetsHarvested_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
     block?: InputMaybe<Scalars['BigInt']>;
     block_gt?: InputMaybe<Scalars['BigInt']>;
     block_gte?: InputMaybe<Scalars['BigInt']>;
@@ -505,6 +506,14 @@ export type User_Filter = {
     block_lte?: InputMaybe<Scalars['BigInt']>;
     block_not?: InputMaybe<Scalars['BigInt']>;
     block_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    embrHarvested?: InputMaybe<Scalars['BigInt']>;
+    embrHarvested_gt?: InputMaybe<Scalars['BigInt']>;
+    embrHarvested_gte?: InputMaybe<Scalars['BigInt']>;
+    embrHarvested_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    embrHarvested_lt?: InputMaybe<Scalars['BigInt']>;
+    embrHarvested_lte?: InputMaybe<Scalars['BigInt']>;
+    embrHarvested_not?: InputMaybe<Scalars['BigInt']>;
+    embrHarvested_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
     id?: InputMaybe<Scalars['ID']>;
     id_gt?: InputMaybe<Scalars['ID']>;
     id_gte?: InputMaybe<Scalars['ID']>;
@@ -562,8 +571,6 @@ export type _Block_ = {
     hash?: Maybe<Scalars['Bytes']>;
     /** The block number */
     number: Scalars['Int'];
-    /** The minimum block number */
-    number_gte: Scalars['Int'];
 };
 
 /** The type for the top-level _meta field */

@@ -22,8 +22,8 @@ export type Bar = {
     address: Scalars['Bytes'];
     block: Scalars['BigInt'];
     decimals: Scalars['Int'];
-    fBeetsBurned: Scalars['BigDecimal'];
-    fBeetsMinted: Scalars['BigDecimal'];
+    cEmbrBurned: Scalars['BigDecimal'];
+    cEmbrMinted: Scalars['BigDecimal'];
     id: Scalars['ID'];
     name: Scalars['String'];
     ratio: Scalars['BigDecimal'];
@@ -67,22 +67,22 @@ export type Bar_Filter = {
     decimals_lte?: Maybe<Scalars['Int']>;
     decimals_not?: Maybe<Scalars['Int']>;
     decimals_not_in?: Maybe<Array<Scalars['Int']>>;
-    fBeetsBurned?: Maybe<Scalars['BigDecimal']>;
-    fBeetsBurned_gt?: Maybe<Scalars['BigDecimal']>;
-    fBeetsBurned_gte?: Maybe<Scalars['BigDecimal']>;
-    fBeetsBurned_in?: Maybe<Array<Scalars['BigDecimal']>>;
-    fBeetsBurned_lt?: Maybe<Scalars['BigDecimal']>;
-    fBeetsBurned_lte?: Maybe<Scalars['BigDecimal']>;
-    fBeetsBurned_not?: Maybe<Scalars['BigDecimal']>;
-    fBeetsBurned_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
-    fBeetsMinted?: Maybe<Scalars['BigDecimal']>;
-    fBeetsMinted_gt?: Maybe<Scalars['BigDecimal']>;
-    fBeetsMinted_gte?: Maybe<Scalars['BigDecimal']>;
-    fBeetsMinted_in?: Maybe<Array<Scalars['BigDecimal']>>;
-    fBeetsMinted_lt?: Maybe<Scalars['BigDecimal']>;
-    fBeetsMinted_lte?: Maybe<Scalars['BigDecimal']>;
-    fBeetsMinted_not?: Maybe<Scalars['BigDecimal']>;
-    fBeetsMinted_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+    cEmbrBurned?: Maybe<Scalars['BigDecimal']>;
+    cEmbrBurned_gt?: Maybe<Scalars['BigDecimal']>;
+    cEmbrBurned_gte?: Maybe<Scalars['BigDecimal']>;
+    cEmbrBurned_in?: Maybe<Array<Scalars['BigDecimal']>>;
+    cEmbrBurned_lt?: Maybe<Scalars['BigDecimal']>;
+    cEmbrBurned_lte?: Maybe<Scalars['BigDecimal']>;
+    cEmbrBurned_not?: Maybe<Scalars['BigDecimal']>;
+    cEmbrBurned_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+    cEmbrMinted?: Maybe<Scalars['BigDecimal']>;
+    cEmbrMinted_gt?: Maybe<Scalars['BigDecimal']>;
+    cEmbrMinted_gte?: Maybe<Scalars['BigDecimal']>;
+    cEmbrMinted_in?: Maybe<Array<Scalars['BigDecimal']>>;
+    cEmbrMinted_lt?: Maybe<Scalars['BigDecimal']>;
+    cEmbrMinted_lte?: Maybe<Scalars['BigDecimal']>;
+    cEmbrMinted_not?: Maybe<Scalars['BigDecimal']>;
+    cEmbrMinted_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
     id?: Maybe<Scalars['ID']>;
     id_gt?: Maybe<Scalars['ID']>;
     id_gte?: Maybe<Scalars['ID']>;
@@ -171,8 +171,8 @@ export enum Bar_OrderBy {
     Address = 'address',
     Block = 'block',
     Decimals = 'decimals',
-    FBeetsBurned = 'fBeetsBurned',
-    FBeetsMinted = 'fBeetsMinted',
+    CEmbrBurned = 'cEmbrBurned',
+    CEmbrMinted = 'cEmbrMinted',
     Id = 'id',
     Name = 'name',
     Ratio = 'ratio',
@@ -199,8 +199,8 @@ export type Query = {
     __typename?: 'Query';
     /** Access to subgraph metadata */
     _meta?: Maybe<_Meta_>;
-    bar?: Maybe<Bar>;
-    bars: Array<Bar>;
+    pit?: Maybe<Bar>;
+    pits: Array<Bar>;
     user?: Maybe<User>;
     users: Array<User>;
 };
@@ -241,8 +241,8 @@ export type Subscription = {
     __typename?: 'Subscription';
     /** Access to subgraph metadata */
     _meta?: Maybe<_Meta_>;
-    bar?: Maybe<Bar>;
-    bars: Array<Bar>;
+    pit?: Maybe<Bar>;
+    pits: Array<Bar>;
     user?: Maybe<User>;
     users: Array<User>;
 };
@@ -282,9 +282,9 @@ export type SubscriptionUsersArgs = {
 export type User = {
     __typename?: 'User';
     address: Scalars['Bytes'];
-    bar?: Maybe<Bar>;
+    pit?: Maybe<Bar>;
     block: Scalars['BigInt'];
-    fBeets: Scalars['BigDecimal'];
+    cEmbr: Scalars['BigDecimal'];
     id: Scalars['ID'];
     timestamp: Scalars['BigInt'];
     vestingTokenHarvested: Scalars['BigDecimal'];
@@ -299,20 +299,20 @@ export type User_Filter = {
     address_not?: Maybe<Scalars['Bytes']>;
     address_not_contains?: Maybe<Scalars['Bytes']>;
     address_not_in?: Maybe<Array<Scalars['Bytes']>>;
-    bar?: Maybe<Scalars['String']>;
-    bar_contains?: Maybe<Scalars['String']>;
-    bar_ends_with?: Maybe<Scalars['String']>;
-    bar_gt?: Maybe<Scalars['String']>;
-    bar_gte?: Maybe<Scalars['String']>;
-    bar_in?: Maybe<Array<Scalars['String']>>;
-    bar_lt?: Maybe<Scalars['String']>;
-    bar_lte?: Maybe<Scalars['String']>;
-    bar_not?: Maybe<Scalars['String']>;
-    bar_not_contains?: Maybe<Scalars['String']>;
-    bar_not_ends_with?: Maybe<Scalars['String']>;
-    bar_not_in?: Maybe<Array<Scalars['String']>>;
-    bar_not_starts_with?: Maybe<Scalars['String']>;
-    bar_starts_with?: Maybe<Scalars['String']>;
+    pit?: Maybe<Scalars['String']>;
+    pit_contains?: Maybe<Scalars['String']>;
+    pit_ends_with?: Maybe<Scalars['String']>;
+    pit_gt?: Maybe<Scalars['String']>;
+    pit_gte?: Maybe<Scalars['String']>;
+    pit_in?: Maybe<Array<Scalars['String']>>;
+    pit_lt?: Maybe<Scalars['String']>;
+    pit_lte?: Maybe<Scalars['String']>;
+    pit_not?: Maybe<Scalars['String']>;
+    pit_not_contains?: Maybe<Scalars['String']>;
+    pit_not_ends_with?: Maybe<Scalars['String']>;
+    pit_not_in?: Maybe<Array<Scalars['String']>>;
+    pit_not_starts_with?: Maybe<Scalars['String']>;
+    pit_starts_with?: Maybe<Scalars['String']>;
     block?: Maybe<Scalars['BigInt']>;
     block_gt?: Maybe<Scalars['BigInt']>;
     block_gte?: Maybe<Scalars['BigInt']>;
@@ -321,14 +321,14 @@ export type User_Filter = {
     block_lte?: Maybe<Scalars['BigInt']>;
     block_not?: Maybe<Scalars['BigInt']>;
     block_not_in?: Maybe<Array<Scalars['BigInt']>>;
-    fBeets?: Maybe<Scalars['BigDecimal']>;
-    fBeets_gt?: Maybe<Scalars['BigDecimal']>;
-    fBeets_gte?: Maybe<Scalars['BigDecimal']>;
-    fBeets_in?: Maybe<Array<Scalars['BigDecimal']>>;
-    fBeets_lt?: Maybe<Scalars['BigDecimal']>;
-    fBeets_lte?: Maybe<Scalars['BigDecimal']>;
-    fBeets_not?: Maybe<Scalars['BigDecimal']>;
-    fBeets_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
+    cEmbr?: Maybe<Scalars['BigDecimal']>;
+    cEmbr_gt?: Maybe<Scalars['BigDecimal']>;
+    cEmbr_gte?: Maybe<Scalars['BigDecimal']>;
+    cEmbr_in?: Maybe<Array<Scalars['BigDecimal']>>;
+    cEmbr_lt?: Maybe<Scalars['BigDecimal']>;
+    cEmbr_lte?: Maybe<Scalars['BigDecimal']>;
+    cEmbr_not?: Maybe<Scalars['BigDecimal']>;
+    cEmbr_not_in?: Maybe<Array<Scalars['BigDecimal']>>;
     id?: Maybe<Scalars['ID']>;
     id_gt?: Maybe<Scalars['ID']>;
     id_gte?: Maybe<Scalars['ID']>;
@@ -373,9 +373,9 @@ export type User_Filter = {
 
 export enum User_OrderBy {
     Address = 'address',
-    Bar = 'bar',
+    Bar = 'pit',
     Block = 'block',
-    FBeets = 'fBeets',
+    CEmbr = 'cEmbr',
     Id = 'id',
     Timestamp = 'timestamp',
     VestingTokenHarvested = 'vestingTokenHarvested',
@@ -415,22 +415,22 @@ export enum _SubgraphErrorPolicy_ {
     Deny = 'deny',
 }
 
-export type GetBeetsBarQueryVariables = Exact<{
+export type GetEmbrPitQueryVariables = Exact<{
     id: Scalars['ID'];
     block?: Maybe<Block_Height>;
 }>;
 
-export type GetBeetsBarQuery = {
+export type GetEmbrPitQuery = {
     __typename?: 'Query';
-    bar?:
+    pit?:
         | {
               __typename?: 'Bar';
               id: string;
               address: string;
               block: string;
               decimals: number;
-              fBeetsBurned: string;
-              fBeetsMinted: string;
+              cEmbrBurned: string;
+              cEmbrMinted: string;
               name: string;
               ratio: string;
               sharedVestingTokenRevenue: string;
@@ -444,12 +444,12 @@ export type GetBeetsBarQuery = {
         | undefined;
 };
 
-export type GetBeetsBarUserQueryVariables = Exact<{
+export type GetEmbrPitUserQueryVariables = Exact<{
     id: Scalars['ID'];
     block?: Maybe<Block_Height>;
 }>;
 
-export type GetBeetsBarUserQuery = {
+export type GetEmbrPitUserQuery = {
     __typename?: 'Query';
     user?:
         | {
@@ -457,7 +457,7 @@ export type GetBeetsBarUserQuery = {
               id: string;
               address: string;
               block: string;
-              fBeets: string;
+              cEmbr: string;
               timestamp: string;
               vestingTokenHarvested: string;
               vestingTokenIn: string;
@@ -467,7 +467,7 @@ export type GetBeetsBarUserQuery = {
         | undefined;
 };
 
-export type BeetsBarUsersQueryVariables = Exact<{
+export type EmbrPitUsersQueryVariables = Exact<{
     skip?: Maybe<Scalars['Int']>;
     first?: Maybe<Scalars['Int']>;
     orderBy?: Maybe<User_OrderBy>;
@@ -476,14 +476,14 @@ export type BeetsBarUsersQueryVariables = Exact<{
     block?: Maybe<Block_Height>;
 }>;
 
-export type BeetsBarUsersQuery = {
+export type EmbrPitUsersQuery = {
     __typename?: 'Query';
     users: Array<{
         __typename?: 'User';
         id: string;
         address: string;
         block: string;
-        fBeets: string;
+        cEmbr: string;
         timestamp: string;
         vestingTokenHarvested: string;
         vestingTokenIn: string;
@@ -491,14 +491,14 @@ export type BeetsBarUsersQuery = {
     }>;
 };
 
-export type BeetsBarFragment = {
+export type EmbrPitFragment = {
     __typename?: 'Bar';
     id: string;
     address: string;
     block: string;
     decimals: number;
-    fBeetsBurned: string;
-    fBeetsMinted: string;
+    cEmbrBurned: string;
+    cEmbrMinted: string;
     name: string;
     ratio: string;
     sharedVestingTokenRevenue: string;
@@ -509,35 +509,35 @@ export type BeetsBarFragment = {
     vestingTokenStaked: string;
 };
 
-export type BeetsBarUserFragment = {
+export type EmbrPitUserFragment = {
     __typename?: 'User';
     id: string;
     address: string;
     block: string;
-    fBeets: string;
+    cEmbr: string;
     timestamp: string;
     vestingTokenHarvested: string;
     vestingTokenIn: string;
     vestingTokenOut: string;
 };
 
-export type BeetsBarPortfolioDataQueryVariables = Exact<{
-    barId: Scalars['ID'];
+export type EmbrPitPortfolioDataQueryVariables = Exact<{
+    pitId: Scalars['ID'];
     userAddress: Scalars['ID'];
     previousBlockNumber: Scalars['Int'];
 }>;
 
-export type BeetsBarPortfolioDataQuery = {
+export type EmbrPitPortfolioDataQuery = {
     __typename?: 'Query';
-    beetsBar?:
+    embrBar?:
         | {
               __typename?: 'Bar';
               id: string;
               address: string;
               block: string;
               decimals: number;
-              fBeetsBurned: string;
-              fBeetsMinted: string;
+              cEmbrBurned: string;
+              cEmbrMinted: string;
               name: string;
               ratio: string;
               sharedVestingTokenRevenue: string;
@@ -549,15 +549,15 @@ export type BeetsBarPortfolioDataQuery = {
           }
         | null
         | undefined;
-    previousBeetsBar?:
+    previousEmbrPit?:
         | {
               __typename?: 'Bar';
               id: string;
               address: string;
               block: string;
               decimals: number;
-              fBeetsBurned: string;
-              fBeetsMinted: string;
+              cEmbrBurned: string;
+              cEmbrMinted: string;
               name: string;
               ratio: string;
               sharedVestingTokenRevenue: string;
@@ -569,13 +569,13 @@ export type BeetsBarPortfolioDataQuery = {
           }
         | null
         | undefined;
-    beetsBarUser?:
+    embrBarUser?:
         | {
               __typename?: 'User';
               id: string;
               address: string;
               block: string;
-              fBeets: string;
+              cEmbr: string;
               timestamp: string;
               vestingTokenHarvested: string;
               vestingTokenIn: string;
@@ -583,13 +583,13 @@ export type BeetsBarPortfolioDataQuery = {
           }
         | null
         | undefined;
-    previousBeetsBarUser?:
+    previousEmbrPitUser?:
         | {
               __typename?: 'User';
               id: string;
               address: string;
               block: string;
-              fBeets: string;
+              cEmbr: string;
               timestamp: string;
               vestingTokenHarvested: string;
               vestingTokenIn: string;
@@ -599,14 +599,14 @@ export type BeetsBarPortfolioDataQuery = {
         | undefined;
 };
 
-export const BeetsBarFragmentDoc = gql`
-    fragment BeetsBar on Bar {
+export const EmbrPitFragmentDoc = gql`
+    fragment EmbrPit on Bar {
         id
         address
         block
         decimals
-        fBeetsBurned
-        fBeetsMinted
+        cEmbrBurned
+        cEmbrMinted
         name
         ratio
         sharedVestingTokenRevenue
@@ -617,36 +617,36 @@ export const BeetsBarFragmentDoc = gql`
         vestingTokenStaked
     }
 `;
-export const BeetsBarUserFragmentDoc = gql`
-    fragment BeetsBarUser on User {
+export const EmbrPitUserFragmentDoc = gql`
+    fragment EmbrPitUser on User {
         id
         address
         block
-        fBeets
+        cEmbr
         timestamp
         vestingTokenHarvested
         vestingTokenIn
         vestingTokenOut
     }
 `;
-export const GetBeetsBarDocument = gql`
-    query GetBeetsBar($id: ID!, $block: Block_height) {
-        bar(id: $id, block: $block) {
-            ...BeetsBar
+export const GetEmbrPitDocument = gql`
+    query GetEmbrPit($id: ID!, $block: Block_height) {
+        pit(id: $id, block: $block) {
+            ...EmbrPit
         }
     }
-    ${BeetsBarFragmentDoc}
+    ${EmbrPitFragmentDoc}
 `;
-export const GetBeetsBarUserDocument = gql`
-    query GetBeetsBarUser($id: ID!, $block: Block_height) {
+export const GetEmbrPitUserDocument = gql`
+    query GetEmbrPitUser($id: ID!, $block: Block_height) {
         user(id: $id, block: $block) {
-            ...BeetsBarUser
+            ...EmbrPitUser
         }
     }
-    ${BeetsBarUserFragmentDoc}
+    ${EmbrPitUserFragmentDoc}
 `;
-export const BeetsBarUsersDocument = gql`
-    query BeetsBarUsers(
+export const EmbrPitUsersDocument = gql`
+    query EmbrPitUsers(
         $skip: Int
         $first: Int
         $orderBy: User_orderBy
@@ -662,28 +662,28 @@ export const BeetsBarUsersDocument = gql`
             where: $where
             block: $block
         ) {
-            ...BeetsBarUser
+            ...EmbrPitUser
         }
     }
-    ${BeetsBarUserFragmentDoc}
+    ${EmbrPitUserFragmentDoc}
 `;
-export const BeetsBarPortfolioDataDocument = gql`
-    query BeetsBarPortfolioData($barId: ID!, $userAddress: ID!, $previousBlockNumber: Int!) {
-        beetsBar: bar(id: $barId) {
-            ...BeetsBar
+export const EmbrPitPortfolioDataDocument = gql`
+    query EmbrPitPortfolioData($pitId: ID!, $userAddress: ID!, $previousBlockNumber: Int!) {
+        embrBar: pit(id: $pitId) {
+            ...EmbrPit
         }
-        previousBeetsBar: bar(id: $barId, block: { number: $previousBlockNumber }) {
-            ...BeetsBar
+        previousEmbrPit: pit(id: $pitId, block: { number: $previousBlockNumber }) {
+            ...EmbrPit
         }
-        beetsBarUser: user(id: $userAddress) {
-            ...BeetsBarUser
+        embrBarUser: user(id: $userAddress) {
+            ...EmbrPitUser
         }
-        previousBeetsBarUser: user(id: $userAddress, block: { number: $previousBlockNumber }) {
-            ...BeetsBarUser
+        previousEmbrPitUser: user(id: $userAddress, block: { number: $previousBlockNumber }) {
+            ...EmbrPitUser
         }
     }
-    ${BeetsBarFragmentDoc}
-    ${BeetsBarUserFragmentDoc}
+    ${EmbrPitFragmentDoc}
+    ${EmbrPitUserFragmentDoc}
 `;
 
 export type SdkFunctionWrapper = <T>(
@@ -695,56 +695,56 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
     return {
-        GetBeetsBar(
-            variables: GetBeetsBarQueryVariables,
+        GetEmbrPit(
+            variables: GetEmbrPitQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
-        ): Promise<GetBeetsBarQuery> {
+        ): Promise<GetEmbrPitQuery> {
             return withWrapper(
                 (wrappedRequestHeaders) =>
-                    client.request<GetBeetsBarQuery>(GetBeetsBarDocument, variables, {
+                    client.request<GetEmbrPitQuery>(GetEmbrPitDocument, variables, {
                         ...requestHeaders,
                         ...wrappedRequestHeaders,
                     }),
-                'GetBeetsBar',
+                'GetEmbrPit',
             );
         },
-        GetBeetsBarUser(
-            variables: GetBeetsBarUserQueryVariables,
+        GetEmbrPitUser(
+            variables: GetEmbrPitUserQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
-        ): Promise<GetBeetsBarUserQuery> {
+        ): Promise<GetEmbrPitUserQuery> {
             return withWrapper(
                 (wrappedRequestHeaders) =>
-                    client.request<GetBeetsBarUserQuery>(GetBeetsBarUserDocument, variables, {
+                    client.request<GetEmbrPitUserQuery>(GetEmbrPitUserDocument, variables, {
                         ...requestHeaders,
                         ...wrappedRequestHeaders,
                     }),
-                'GetBeetsBarUser',
+                'GetEmbrPitUser',
             );
         },
-        BeetsBarUsers(
-            variables?: BeetsBarUsersQueryVariables,
+        EmbrPitUsers(
+            variables?: EmbrPitUsersQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
-        ): Promise<BeetsBarUsersQuery> {
+        ): Promise<EmbrPitUsersQuery> {
             return withWrapper(
                 (wrappedRequestHeaders) =>
-                    client.request<BeetsBarUsersQuery>(BeetsBarUsersDocument, variables, {
+                    client.request<EmbrPitUsersQuery>(EmbrPitUsersDocument, variables, {
                         ...requestHeaders,
                         ...wrappedRequestHeaders,
                     }),
-                'BeetsBarUsers',
+                'EmbrPitUsers',
             );
         },
-        BeetsBarPortfolioData(
-            variables: BeetsBarPortfolioDataQueryVariables,
+        EmbrPitPortfolioData(
+            variables: EmbrPitPortfolioDataQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
-        ): Promise<BeetsBarPortfolioDataQuery> {
+        ): Promise<EmbrPitPortfolioDataQuery> {
             return withWrapper(
                 (wrappedRequestHeaders) =>
-                    client.request<BeetsBarPortfolioDataQuery>(BeetsBarPortfolioDataDocument, variables, {
+                    client.request<EmbrPitPortfolioDataQuery>(EmbrPitPortfolioDataDocument, variables, {
                         ...requestHeaders,
                         ...wrappedRequestHeaders,
                     }),
-                'BeetsBarPortfolioData',
+                'EmbrPitPortfolioData',
             );
         },
     };
