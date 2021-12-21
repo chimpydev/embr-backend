@@ -59,14 +59,14 @@ fragment EmbrPitUser on User {
 }
 
 query EmbrPitPortfolioData($pitId: ID!, $userAddress: ID!, $previousBlockNumber: Int!) {
-    embrBar: pit(id: $pitId) {
+    embrPit: pit(id: $pitId) {
         ...EmbrPit
     }
     previousEmbrPit: pit(id: $pitId, block: { number: $previousBlockNumber }) {
         ...EmbrPit
     }
 
-    embrBarUser: user(id: $userAddress) {
+    embrPitUser: user(id: $userAddress) {
         ...EmbrPitUser
     }
     previousEmbrPitUser: user(id: $userAddress, block: { number: $previousBlockNumber }) {

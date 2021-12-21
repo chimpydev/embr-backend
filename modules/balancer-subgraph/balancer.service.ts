@@ -31,6 +31,7 @@ export class BalancerSubgraphService {
     private readonly client: GraphQLClient;
 
     constructor() {
+        console.log("show BalancerSubgraphService", env.BALANCER_SUBGRAPH)
         this.client = new GraphQLClient(env.BALANCER_SUBGRAPH);
     }
 

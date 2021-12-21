@@ -55,12 +55,9 @@ export class CoingeckoService {
 
             pages.forEach((page) => {
                 const addressString = addresses.slice(addressesPerRequest * page, addressesPerRequest * (page + 1));
-                console.log("get token price a)", this.platformId, addressString, this.fiatParam)
                 for (let i =0; i < addressString.length; i++) { 
-                    addressString[i] = this.swapAddress(addressString[i])
+                    addressString[i] = addressString[i]
                 }
-                console.log("get token price b)", this.platformId, addressString, this.fiatParam)
-
                 const endpoint = `/simple/token_price/${this.platformId}?contract_addresses=${addressString}&vs_currencies=${this.fiatParam}`;
                //console.log(endpoint)
                 const request = this.get<PriceResponse>(endpoint);
@@ -68,10 +65,6 @@ export class CoingeckoService {
             });
 
             addressesWithCustomPlatform.forEach((address) => {
-                console.log("get token price v)", this.getPlatformIdForAddress(
-                    address,
-                ), address, this.fiatParam)
-
                 const endpoint = `/simple/token_price/${this.getPlatformIdForAddress(
                     address,
                 )}?contract_addresses=${address}&vs_currencies=${this.fiatParam}`;
@@ -86,8 +79,6 @@ export class CoingeckoService {
             if (addresses.includes(this.nativeAssetAddress)) {
                 results[this.nativeAssetAddress] = await this.getNativeAssetPrice();
             }
-
-            console.log(this.nativeAssetAddress, addresses)
             return results;
         } catch (error) {
             console.error('Unable to fetch token prices', addresses, error);
@@ -136,23 +127,6 @@ export class CoingeckoService {
         const addressMap = coinGeckoTokenMappings.Prices.ChainMap[this.appNetwork];
         if (!addressMap) return address;
         return addressMap[address.toLowerCase()] || address;
-    }
-
-    public swapAddress(address: string): string { 
-        switch(address) { 
-            case "0xcbb327140e91039a3f4e8ecf144b0f12238d6fdd":
-                return "0x78ea17559b3d2cf85a7f9c2c704eda119db5e6de"
-            case "0xfb8fa9f5f0bd47591ba6f7c75fe519e3e8fde429":
-                return "0xa7d7079b0fead91f3e65f86e8915cb59c1a4c664"
-            case "0x4b20b17bdb9991a8549f5ceb8bd813419e537209":
-                return "0xd586e7f844cea2f87f50152665bcbc2c279d8d70"
-            case "0xd00ae08403b9bbb9124bb305c09058e32c39a48c":
-                return "0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7"
-            case "0xee67880a6aaba39c5eaf833b68ea5fd908dc008d":
-                return "0x78ea17559b3d2cf85a7f9c2c704eda119db5e6de"
-            default:
-                return address
-        }
     }
 
     /**

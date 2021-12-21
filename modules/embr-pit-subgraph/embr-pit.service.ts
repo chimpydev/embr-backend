@@ -21,12 +21,12 @@ export class EmbrPitSubgraphService {
         userAddress: string,
         previousBlockNumber: number,
     ): Promise<{
-        embrBar: EmbrPitFragment;
+        embrPit: EmbrPitFragment;
         previousEmbrPit: EmbrPitFragment;
-        embrBarUser: EmbrPitUserFragment | null;
+        embrPitUser: EmbrPitUserFragment | null;
         previousEmbrPitUser: EmbrPitUserFragment | null;
     }> {
-        const { embrBarUser, embrBar, previousEmbrPitUser, previousEmbrPit } = await this.sdk.EmbrPitPortfolioData(
+        const { embrPitUser, embrPit, previousEmbrPitUser, previousEmbrPit } = await this.sdk.EmbrPitPortfolioData(
             {
                 pitId: env.CEMBR_ADDRESS,
                 userAddress,
@@ -35,8 +35,8 @@ export class EmbrPitSubgraphService {
         );
 
         return {
-            embrBar: embrBar || this.emptyEmbrPit,
-            embrBarUser: embrBarUser || null,
+            embrPit: embrPit || this.emptyEmbrPit,
+            embrPitUser: embrPitUser || null,
             previousEmbrPit: previousEmbrPit || this.emptyEmbrPit,
             previousEmbrPitUser: previousEmbrPitUser || null,
         };
@@ -99,4 +99,4 @@ export class EmbrPitSubgraphService {
     }
 }
 
-export const embrBarService = new EmbrPitSubgraphService();
+export const embrPitService = new EmbrPitSubgraphService();

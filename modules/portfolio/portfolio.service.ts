@@ -19,8 +19,8 @@ import moment from 'moment-timezone';
 import { GqlBalancerPool, GqlUserPortfolioData, GqlUserTokenData } from '../../schema';
 import { balancerTokenMappings } from '../token-price/lib/balancer-token-mappings';
 import { env } from '../../app/env';
-import { embrBarService } from '../embr-pit-subgraph/embr-pit.service';
-import { EmbrBarFragment, EmbrBarUserFragment } from '../embr-pit-subgraph/generated/embr-pit-subgraph-types';
+//import { embrPitService } from '../embr-pit-subgraph/embr-pit.service';
+//import { EmbrPitFragment, EmbrPitUserFragment } from '../embr-pit-subgraph/generated/embr-pit-subgraph-types';
 
 class PortfolioService {
     constructor() {}
@@ -35,8 +35,8 @@ class PortfolioService {
             address,
             previousBlockNumber: parseInt(previousBlock.number),
         });
-        const { embrBarUser, previousEmbrBarUser, embrBar, previousEmbrBar } =
-            await embrBarService.getPortfolioData(address, parseInt(previousBlock.number));
+        //const { embrPitUser, previousEmbrPitUser, embrPit, previousEmbrPit } =
+        //    await embrPitService.getPortfolioData(address, parseInt(previousBlock.number));
         const tokenPrices = await tokenPriceService.getTokenPrices();
         const historicalTokenPrices = await tokenPriceService.getHistoricalTokenPrices();
         const previousTokenPrices = tokenPriceService.getTokenPricesForTimestamp(
@@ -65,10 +65,10 @@ class PortfolioService {
             previousFarmUsers,
             tokenPrices,
             previousTokenPrices,
-            embrBar,
-            previousEmbrBar,
-            embrBarUser,
-            previousEmbrBarUser,
+            //embrPit,
+            //previousEmbrPit,
+            //embrPitUser,
+            //previousEmbrPitUser,
         );
         const tokens = this.tokensFromUserPoolData(poolData);
 
@@ -104,10 +104,10 @@ class PortfolioService {
                 previousBlock.timestamp,
                 historicalTokenPrices,
             );
-            const embrBar = await embrBarService.getEmbrBar(blockNumber);
-            const previousEmbrBar = await embrBarService.getEmbrBar(parseInt(previousBlock.number));
-            const embrBarUser = await embrBarService.getUserAtBlock(address, blockNumber);
-            const previousEmbrBarUser = await embrBarService.getUserAtBlock(address, parseInt(previousBlock.number));
+           // const embrPit = await embrPitService.getEmbrPit(blockNumber);
+           // const previousEmbrPit = await embrPitService.getEmbrPit(parseInt(previousBlock.number));
+           // const embrPitUser = await embrPitService.getUserAtBlock(address, blockNumber);
+           // const previousEmbrPitUser = await embrPitService.getUserAtBlock(address, parseInt(previousBlock.number));
             //const allJoinExits = await balancerService.getAllJoinExitsAtBlock(blockNumber);
 
             if (user && previousUser) {
@@ -122,10 +122,10 @@ class PortfolioService {
                     previousFarmUsers,
                     tokenPrices,
                     previousTokenPrices,
-                    embrBar,
-                    previousEmbrBar,
-                    embrBarUser,
-                    previousEmbrBarUser,
+                    //embrPit,
+                    //previousEmbrPit,
+                    //embrPitUser,
+                    //previousEmbrPitUser,
                 );
                 const tokens = this.tokensFromUserPoolData(poolData);
                 //const joinExits = allJoinExits.filter((joinExit) => joinExit.user.id === user.id);
@@ -160,10 +160,10 @@ class PortfolioService {
         previousUserFarms: FarmUserFragment[],
         tokenPrices: TokenPrices,
         previousTokenPrices: TokenPrices,
-        embrBar: EmbrBarFragment,
-        previousEmbrBar: EmbrBarFragment,
-        embrBarUser: EmbrBarUserFragment | null,
-        previousEmbrBarUser: EmbrBarUserFragment | null,
+        //embrPit: EmbrPitFragment,
+        //previousEmbrPit: EmbrPitFragment,
+        //embrPitUser: EmbrPitUserFragment | null,
+        //previousEmbrPitUser: EmbrPitUserFragment | null,
     ): UserPoolData[] {
         const userPoolData: Omit<UserPoolData, 'percentOfPortfolio'>[] = [];
 
@@ -172,14 +172,14 @@ class PortfolioService {
             const previousPool = previousPools.find((previousPool) => previousPool.id === pool.id) || pool;
 
             const { userNumShares, userPercentShare, userTotalValue, userTokens, pricePerShare } =
-                this.generatePoolIntermediates(pool, balancerUser, userFarms, tokenPrices, embrBar, embrBarUser);
+                this.generatePoolIntermediates(pool, balancerUser, userFarms, tokenPrices);//, embrPit, embrPitUser);
             const previous = this.generatePoolIntermediates(
                 previousPool,
                 previousBalancerUser,
                 previousUserFarms,
-                previousTokenPrices,
-                previousEmbrBar,
-                previousEmbrBarUser,
+                previousTokenPrices//,
+               // previousEmbrPit,
+                //previousEmbrPitUser,
             );
 
             const swapFees = parseFloat(pool.totalSwapFee) - parseFloat(previousPool.totalSwapFee);
@@ -318,16 +318,16 @@ class PortfolioService {
         balancerUser: BalancerUserFragment,
         userFarms: FarmUserFragment[],
         tokenPrices: TokenPrices,
-        embrBar: EmbrBarFragment,
-        embrBarUser: EmbrBarUserFragment | null,
+        //embrPit: EmbrPitFragment,
+        //embrPitUser: EmbrPitUserFragment | null,
     ) {
-        const embrBarSharesForPool = this.getUserEmbrBarSharesForPool(pool, userFarms, embrBar, embrBarUser);
+        //const embrPitSharesForPool = this.getUserEmbrPitSharesForPool(pool, userFarms, embrPit, embrPitUser);
         const sharesOwned = balancerUser.sharesOwned?.find((shares) => shares.poolId.id === pool.id);
         const userFarm = userFarms.find((userFarm) => userFarm.pool?.pair === pool.address);
         const userNumShares =
             parseFloat(sharesOwned?.balance || '0') +
-            fromFp(BigNumber.from(userFarm?.amount || 0)).toNumber() +
-            embrBarSharesForPool;
+            fromFp(BigNumber.from(userFarm?.amount || 0)).toNumber()// +
+           // embrPitSharesForPool;
         const poolTotalShares = parseFloat(pool.totalShares);
         const poolTotalValue = this.getPoolValue(pool, tokenPrices);
         const userPercentShare =  Number.isNaN(userNumShares / poolTotalShares) === true ? 0 : userNumShares / poolTotalShares;
@@ -351,11 +351,11 @@ class PortfolioService {
         };
     }
 
-    private getUserEmbrBarSharesForPool(
+    private getUserEmbrPitSharesForPool(
         pool: BalancerPoolFragment,
         userFarms: FarmUserFragment[],
-        embrBar: EmbrBarFragment,
-        embrBarUser: EmbrBarUserFragment | null,
+        //embrPit: EmbrPitFragment,
+        //embrPitUser: EmbrPitUserFragment | null,
     ): number {
         if (pool.id !== env.CEMBR_POOL_ID) {
             return 0;
@@ -363,9 +363,9 @@ class PortfolioService {
 
         const userCembrFarm = userFarms.find((userFarm) => userFarm.pool?.pair === env.CEMBR_ADDRESS);
         const userStakedCembr = fromFp(userCembrFarm?.amount || '0').toNumber();
-        const userCembr = parseFloat(embrBarUser?.fEmbr || '0');
+        //const userCembr = parseFloat(embrPitUser?.cEmbr || '0');
 
-        return (userStakedCembr + userCembr) * parseFloat(embrBar.ratio);
+        return 0 //(userStakedCembr + userCembr) * parseFloat(embrPit.ratio);
     }
 
     private getPoolValue(pool: BalancerPoolFragment, tokenPrices: TokenPrices): number {

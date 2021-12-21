@@ -529,7 +529,7 @@ export type EmbrPitPortfolioDataQueryVariables = Exact<{
 
 export type EmbrPitPortfolioDataQuery = {
     __typename?: 'Query';
-    embrBar?:
+    embrPit?:
         | {
               __typename?: 'Bar';
               id: string;
@@ -569,7 +569,7 @@ export type EmbrPitPortfolioDataQuery = {
           }
         | null
         | undefined;
-    embrBarUser?:
+    embrPitUser?:
         | {
               __typename?: 'User';
               id: string;
@@ -669,13 +669,13 @@ export const EmbrPitUsersDocument = gql`
 `;
 export const EmbrPitPortfolioDataDocument = gql`
     query EmbrPitPortfolioData($pitId: ID!, $userAddress: ID!, $previousBlockNumber: Int!) {
-        embrBar: pit(id: $pitId) {
+        embrPit: pit(id: $pitId) {
             ...EmbrPit
         }
         previousEmbrPit: pit(id: $pitId, block: { number: $previousBlockNumber }) {
             ...EmbrPit
         }
-        embrBarUser: user(id: $userAddress) {
+        embrPitUser: user(id: $userAddress) {
             ...EmbrPitUser
         }
         previousEmbrPitUser: user(id: $userAddress, block: { number: $previousBlockNumber }) {

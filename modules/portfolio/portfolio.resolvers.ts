@@ -3,7 +3,7 @@ import { portfolioService } from './portfolio.service';
 import { getRequiredAccountAddress, isAdminRoute } from '../util/resolver-util';
 import { balancerService } from '../balancer-subgraph/balancer.service';
 import { masterchefService } from '../masterchef-subgraph/masterchef.service';
-import { embrBarService } from '../embr-pit-subgraph/embr-pit.service';
+//import { embrPitService } from '../embr-pit-subgraph/embr-pit.service';
 import { blocksSubgraphService } from '../blocks-subgraph/blocks-subgraph.service';
 
 const resolvers: Resolvers = {
@@ -36,7 +36,7 @@ const resolvers: Resolvers = {
 
             await balancerService.clearCacheAtBlock(block);
             await masterchefService.clearCacheAtBlock(block);
-            await embrBarService.clearCacheAtBlock(block);
+            //await embrPitService.clearCacheAtBlock(block);
 
             return true;
         },

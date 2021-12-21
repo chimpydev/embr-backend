@@ -26,6 +26,7 @@ export class BlocksSubgraphService {
     private readonly client: GraphQLClient;
 
     constructor() {
+        console.log("show blocks subgraph", env.BLOCKS_SUBGRAPH)
         this.client = new GraphQLClient(env.BLOCKS_SUBGRAPH);
     }
 
