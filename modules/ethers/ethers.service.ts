@@ -1,6 +1,6 @@
 import { Contract, ethers } from 'ethers';
 
-const jsonRpcProvider = new ethers.providers.JsonRpcProvider('https://api.avax-test.network/ext/bc/C/rpc');
+const jsonRpcProvider = new ethers.providers.JsonRpcProvider('https://api.avax.network/ext/bc/C/rpc');
 
 export class EthersService {
     getContractAt(address: string, abi: any): Contract {

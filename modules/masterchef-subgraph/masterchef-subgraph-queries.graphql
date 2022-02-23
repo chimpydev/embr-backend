@@ -48,9 +48,33 @@ query Masterchefs(
         block: $block
     ) {
         id
-        embrPerBlock
+        embrPerSec
         totalAllocPoint
         poolCount
+        timestamp
+        block
+    }
+}
+
+query Migrations(
+    $skip: Int
+    $first: Int
+    $orderBy: Migrations_orderBy
+    $orderDirection: OrderDirection
+    $where: Migrations_filter
+    $block: Block_height
+) {
+    migrations(
+        skip: $skip
+        first: $first
+        orderBy: $orderBy
+        orderDirection: $orderDirection
+        where: $where
+        block: $block
+    ) {
+        id
+        claimed
+        unclaimed
         timestamp
         block
     }

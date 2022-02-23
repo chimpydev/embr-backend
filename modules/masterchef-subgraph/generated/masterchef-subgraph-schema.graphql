@@ -18,7 +18,7 @@ scalar Bytes
 
 type MasterChef {
     block: BigInt!
-    embrPerBlock: BigInt!
+    embrPerSec: BigInt!
     id: ID!
     poolCount: BigInt!
     pools(
@@ -41,14 +41,14 @@ input MasterChef_filter {
     block_lte: BigInt
     block_not: BigInt
     block_not_in: [BigInt!]
-    embrPerBlock: BigInt
-    embrPerBlock_gt: BigInt
-    embrPerBlock_gte: BigInt
-    embrPerBlock_in: [BigInt!]
-    embrPerBlock_lt: BigInt
-    embrPerBlock_lte: BigInt
-    embrPerBlock_not: BigInt
-    embrPerBlock_not_in: [BigInt!]
+    embrPerSec: BigInt
+    embrPerSec_gt: BigInt
+    embrPerSec_gte: BigInt
+    embrPerSec_in: [BigInt!]
+    embrPerSec_lt: BigInt
+    embrPerSec_lte: BigInt
+    embrPerSec_not: BigInt
+    embrPerSec_not_in: [BigInt!]
     id: ID
     id_gt: ID
     id_gte: ID
@@ -85,12 +85,71 @@ input MasterChef_filter {
 
 enum MasterChef_orderBy {
     block
-    embrPerBlock
+    embrPerSec
     id
     poolCount
     pools
     timestamp
     totalAllocPoint
+}
+
+type Migrations {
+    block: BigInt!
+    claimed: BigInt!
+    id: ID!
+    timestamp: BigInt!
+    unclaimed: BigInt!
+}
+
+input Migrations_filter {
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    claimed: BigInt
+    claimed_gt: BigInt
+    claimed_gte: BigInt
+    claimed_in: [BigInt!]
+    claimed_lt: BigInt
+    claimed_lte: BigInt
+    claimed_not: BigInt
+    claimed_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+    unclaimed: BigInt
+    unclaimed_gt: BigInt
+    unclaimed_gte: BigInt
+    unclaimed_in: [BigInt!]
+    unclaimed_lt: BigInt
+    unclaimed_lte: BigInt
+    unclaimed_not: BigInt
+    unclaimed_not_in: [BigInt!]
+}
+
+enum Migrations_orderBy {
+    block
+    claimed
+    id
+    timestamp
+    unclaimed
 }
 
 enum OrderDirection {
@@ -268,6 +327,22 @@ type Query {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: MasterChef_filter
     ): [MasterChef!]!
+    migrations(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Migrations_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Migrations_filter
+    ): [Migrations!]!
     pool(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -444,6 +519,22 @@ type Subscription {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: MasterChef_filter
     ): [MasterChef!]!
+    migrations(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Migrations_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Migrations_filter
+    ): [Migrations!]!
     pool(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.

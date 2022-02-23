@@ -27,7 +27,7 @@ export type Block_Height = {
 export type MasterChef = {
     __typename?: 'MasterChef';
     block: Scalars['BigInt'];
-    embrPerBlock: Scalars['BigInt'];
+    embrPerSec: Scalars['BigInt'];
     id: Scalars['ID'];
     poolCount: Scalars['BigInt'];
     pools?: Maybe<Array<Pool>>;
@@ -52,14 +52,14 @@ export type MasterChef_Filter = {
     block_lte?: InputMaybe<Scalars['BigInt']>;
     block_not?: InputMaybe<Scalars['BigInt']>;
     block_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
-    embrPerBlock?: InputMaybe<Scalars['BigInt']>;
-    embrPerBlock_gt?: InputMaybe<Scalars['BigInt']>;
-    embrPerBlock_gte?: InputMaybe<Scalars['BigInt']>;
-    embrPerBlock_in?: InputMaybe<Array<Scalars['BigInt']>>;
-    embrPerBlock_lt?: InputMaybe<Scalars['BigInt']>;
-    embrPerBlock_lte?: InputMaybe<Scalars['BigInt']>;
-    embrPerBlock_not?: InputMaybe<Scalars['BigInt']>;
-    embrPerBlock_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    embrPerSec?: InputMaybe<Scalars['BigInt']>;
+    embrPerSec_gt?: InputMaybe<Scalars['BigInt']>;
+    embrPerSec_gte?: InputMaybe<Scalars['BigInt']>;
+    embrPerSec_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    embrPerSec_lt?: InputMaybe<Scalars['BigInt']>;
+    embrPerSec_lte?: InputMaybe<Scalars['BigInt']>;
+    embrPerSec_not?: InputMaybe<Scalars['BigInt']>;
+    embrPerSec_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
     id?: InputMaybe<Scalars['ID']>;
     id_gt?: InputMaybe<Scalars['ID']>;
     id_gte?: InputMaybe<Scalars['ID']>;
@@ -96,12 +96,72 @@ export type MasterChef_Filter = {
 
 export enum MasterChef_OrderBy {
     Block = 'block',
-    EmbrPerBlock = 'embrPerBlock',
+    EmbrPerSec = 'embrPerSec',
     Id = 'id',
     PoolCount = 'poolCount',
     Pools = 'pools',
     Timestamp = 'timestamp',
     TotalAllocPoint = 'totalAllocPoint',
+}
+
+export type Migrations = {
+    __typename?: 'Migrations';
+    block: Scalars['BigInt'];
+    claimed: Scalars['BigInt'];
+    id: Scalars['ID'];
+    timestamp: Scalars['BigInt'];
+    unclaimed: Scalars['BigInt'];
+};
+
+export type Migrations_Filter = {
+    block?: InputMaybe<Scalars['BigInt']>;
+    block_gt?: InputMaybe<Scalars['BigInt']>;
+    block_gte?: InputMaybe<Scalars['BigInt']>;
+    block_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    block_lt?: InputMaybe<Scalars['BigInt']>;
+    block_lte?: InputMaybe<Scalars['BigInt']>;
+    block_not?: InputMaybe<Scalars['BigInt']>;
+    block_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    claimed?: InputMaybe<Scalars['BigInt']>;
+    claimed_gt?: InputMaybe<Scalars['BigInt']>;
+    claimed_gte?: InputMaybe<Scalars['BigInt']>;
+    claimed_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    claimed_lt?: InputMaybe<Scalars['BigInt']>;
+    claimed_lte?: InputMaybe<Scalars['BigInt']>;
+    claimed_not?: InputMaybe<Scalars['BigInt']>;
+    claimed_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    id?: InputMaybe<Scalars['ID']>;
+    id_gt?: InputMaybe<Scalars['ID']>;
+    id_gte?: InputMaybe<Scalars['ID']>;
+    id_in?: InputMaybe<Array<Scalars['ID']>>;
+    id_lt?: InputMaybe<Scalars['ID']>;
+    id_lte?: InputMaybe<Scalars['ID']>;
+    id_not?: InputMaybe<Scalars['ID']>;
+    id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+    timestamp?: InputMaybe<Scalars['BigInt']>;
+    timestamp_gt?: InputMaybe<Scalars['BigInt']>;
+    timestamp_gte?: InputMaybe<Scalars['BigInt']>;
+    timestamp_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    timestamp_lt?: InputMaybe<Scalars['BigInt']>;
+    timestamp_lte?: InputMaybe<Scalars['BigInt']>;
+    timestamp_not?: InputMaybe<Scalars['BigInt']>;
+    timestamp_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    unclaimed?: InputMaybe<Scalars['BigInt']>;
+    unclaimed_gt?: InputMaybe<Scalars['BigInt']>;
+    unclaimed_gte?: InputMaybe<Scalars['BigInt']>;
+    unclaimed_in?: InputMaybe<Array<Scalars['BigInt']>>;
+    unclaimed_lt?: InputMaybe<Scalars['BigInt']>;
+    unclaimed_lte?: InputMaybe<Scalars['BigInt']>;
+    unclaimed_not?: InputMaybe<Scalars['BigInt']>;
+    unclaimed_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+};
+
+export enum Migrations_OrderBy {
+    Block = 'block',
+    Claimed = 'claimed',
+    Id = 'id',
+    Timestamp = 'timestamp',
+    Unclaimed = 'unclaimed',
 }
 
 export enum OrderDirection {
@@ -255,6 +315,7 @@ export type Query = {
     _meta?: Maybe<_Meta_>;
     masterChef?: Maybe<MasterChef>;
     masterChefs: Array<MasterChef>;
+    migrations: Array<Migrations>;
     pool?: Maybe<Pool>;
     pools: Array<Pool>;
     rewarder?: Maybe<Rewarder>;
@@ -281,6 +342,16 @@ export type QueryMasterChefsArgs = {
     skip?: InputMaybe<Scalars['Int']>;
     subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<MasterChef_Filter>;
+};
+
+export type QueryMigrationsArgs = {
+    block?: InputMaybe<Block_Height>;
+    first?: InputMaybe<Scalars['Int']>;
+    orderBy?: InputMaybe<Migrations_OrderBy>;
+    orderDirection?: InputMaybe<OrderDirection>;
+    skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
+    where?: InputMaybe<Migrations_Filter>;
 };
 
 export type QueryPoolArgs = {
@@ -395,6 +466,7 @@ export type Subscription = {
     _meta?: Maybe<_Meta_>;
     masterChef?: Maybe<MasterChef>;
     masterChefs: Array<MasterChef>;
+    migrations: Array<Migrations>;
     pool?: Maybe<Pool>;
     pools: Array<Pool>;
     rewarder?: Maybe<Rewarder>;
@@ -421,6 +493,16 @@ export type SubscriptionMasterChefsArgs = {
     skip?: InputMaybe<Scalars['Int']>;
     subgraphError?: _SubgraphErrorPolicy_;
     where?: InputMaybe<MasterChef_Filter>;
+};
+
+export type SubscriptionMigrationsArgs = {
+    block?: InputMaybe<Block_Height>;
+    first?: InputMaybe<Scalars['Int']>;
+    orderBy?: InputMaybe<Migrations_OrderBy>;
+    orderDirection?: InputMaybe<OrderDirection>;
+    skip?: InputMaybe<Scalars['Int']>;
+    subgraphError?: _SubgraphErrorPolicy_;
+    where?: InputMaybe<Migrations_Filter>;
 };
 
 export type SubscriptionPoolArgs = {
@@ -645,9 +727,30 @@ export type MasterchefsQuery = {
     masterChefs: Array<{
         __typename?: 'MasterChef';
         id: string;
-        embrPerBlock: string;
+        embrPerSec: string;
         totalAllocPoint: string;
         poolCount: string;
+        timestamp: string;
+        block: string;
+    }>;
+};
+
+export type MigrationsQueryVariables = Exact<{
+    skip?: InputMaybe<Scalars['Int']>;
+    first?: InputMaybe<Scalars['Int']>;
+    orderBy?: InputMaybe<Migrations_OrderBy>;
+    orderDirection?: InputMaybe<OrderDirection>;
+    where?: InputMaybe<Migrations_Filter>;
+    block?: InputMaybe<Block_Height>;
+}>;
+
+export type MigrationsQuery = {
+    __typename?: 'Query';
+    migrations: Array<{
+        __typename?: 'Migrations';
+        id: string;
+        claimed: string;
+        unclaimed: string;
         timestamp: string;
         block: string;
     }>;
@@ -787,9 +890,29 @@ export const MasterchefsDocument = gql`
             block: $block
         ) {
             id
-            embrPerBlock
+            embrPerSec
             totalAllocPoint
             poolCount
+            timestamp
+            block
+        }
+    }
+`;
+export const MigrationsDocument = gql`
+    query Migrations(
+        $skip: Int
+        $first: Int
+        $orderBy: Migrations_orderBy
+        $orderDirection: OrderDirection
+        $where: Migrations_filter
+        $block: Block_height
+    ) {
+        migrations(
+            id: "0x0000000000000000000000000000000000000000"
+        ) {
+            id
+            claimed
+            unclaimed
             timestamp
             block
         }
@@ -862,6 +985,19 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
                         ...wrappedRequestHeaders,
                     }),
                 'Masterchefs',
+            );
+        },
+        Migrations(
+            variables?: MigrationsQueryVariables,
+            requestHeaders?: Dom.RequestInit['headers'],
+        ): Promise<MigrationsQuery> {
+            return withWrapper(
+                (wrappedRequestHeaders) =>
+                    client.request<MigrationsQuery>(MigrationsDocument, variables, {
+                        ...requestHeaders,
+                        ...wrappedRequestHeaders,
+                    }),
+                'Migrations',
             );
         },
         MasterchefFarms(

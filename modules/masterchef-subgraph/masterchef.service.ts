@@ -4,10 +4,13 @@ import {
     FarmUserFragment,
     getSdk,
     MasterChef,
+    Migrations,
+    MigrationsQueryVariables,
     MasterchefFarmsQuery,
     MasterchefFarmsQueryVariables,
     MasterchefPortfolioDataQuery,
     MasterchefPortfolioDataQueryVariables,
+    MigrationsQuery,
     MasterchefUsersQuery,
     MasterchefUsersQueryVariables,
     QueryMasterChefsArgs,
@@ -34,6 +37,10 @@ export class MasterchefSubgraphService {
 
         //There is only ever one
         return response.masterChefs[0];
+    }
+
+    public async getMigrations(args: MigrationsQueryVariables): Promise<MigrationsQuery> {
+        return this.sdk.Migrations(args);
     }
 
     public async getFarms(args: MasterchefFarmsQueryVariables): Promise<MasterchefFarmsQuery> {
