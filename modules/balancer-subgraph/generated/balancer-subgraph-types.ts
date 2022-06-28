@@ -3104,7 +3104,12 @@ export type BalancerUserQuery = {
               __typename?: 'User';
               id: string;
               sharesOwned?:
-                  | Array<{ __typename?: 'PoolShare'; balance: string; poolId: { __typename?: 'Pool'; id: string } }>
+                  | Array<{
+                        __typename?: 'PoolShare';
+                        id: string;
+                        balance: string;
+                        poolId: { __typename?: 'Pool'; id: string };
+                    }>
                   | null
                   | undefined;
           }
@@ -3127,7 +3132,12 @@ export type BalancerUsersQuery = {
         __typename?: 'User';
         id: string;
         sharesOwned?:
-            | Array<{ __typename?: 'PoolShare'; balance: string; poolId: { __typename?: 'Pool'; id: string } }>
+            | Array<{
+                  __typename?: 'PoolShare';
+                  id: string;
+                  balance: string;
+                  poolId: { __typename?: 'Pool'; id: string };
+              }>
             | null
             | undefined;
     }>;
@@ -3137,7 +3147,7 @@ export type BalancerUserFragment = {
     __typename?: 'User';
     id: string;
     sharesOwned?:
-        | Array<{ __typename?: 'PoolShare'; balance: string; poolId: { __typename?: 'Pool'; id: string } }>
+        | Array<{ __typename?: 'PoolShare'; id: string; balance: string; poolId: { __typename?: 'Pool'; id: string } }>
         | null
         | undefined;
 };
@@ -3195,6 +3205,16 @@ export type BalancerPoolFragment = {
     totalShares: string;
     swapsCount: string;
     holdersCount: string;
+    createTime: number;
+    swapEnabled: boolean;
+    tokensList: Array<string>;
+    factory?: string | null | undefined;
+    expiryTime?: string | null | undefined;
+    unitSeconds?: string | null | undefined;
+    principalToken?: string | null | undefined;
+    baseToken?: string | null | undefined;
+    owner?: string | null | undefined;
+    amp?: string | null | undefined;
     tokens?:
         | Array<{
               __typename?: 'PoolToken';
@@ -3251,6 +3271,16 @@ export type BalancerPoolsQuery = {
         totalShares: string;
         swapsCount: string;
         holdersCount: string;
+        createTime: number;
+        swapEnabled: boolean;
+        tokensList: Array<string>;
+        factory?: string | null | undefined;
+        expiryTime?: string | null | undefined;
+        unitSeconds?: string | null | undefined;
+        principalToken?: string | null | undefined;
+        baseToken?: string | null | undefined;
+        owner?: string | null | undefined;
+        amp?: string | null | undefined;
         tokens?:
             | Array<{
                   __typename?: 'PoolToken';
@@ -3292,6 +3322,16 @@ export type BalancerPoolQuery = {
               totalShares: string;
               swapsCount: string;
               holdersCount: string;
+              createTime: number;
+              swapEnabled: boolean;
+              tokensList: Array<string>;
+              factory?: string | null | undefined;
+              expiryTime?: string | null | undefined;
+              unitSeconds?: string | null | undefined;
+              principalToken?: string | null | undefined;
+              baseToken?: string | null | undefined;
+              owner?: string | null | undefined;
+              amp?: string | null | undefined;
               tokens?:
                   | Array<{
                         __typename?: 'PoolToken';
@@ -3384,8 +3424,31 @@ export type BalancerLatestPricesQuery = {
         asset: string;
         price: string;
         pricingAsset: string;
+        block: string;
+        priceUSD: string;
         poolId: { __typename?: 'Pool'; id: string };
     }>;
+};
+
+export type BalancerLatestPriceQueryVariables = Exact<{
+    id: Scalars['ID'];
+}>;
+
+export type BalancerLatestPriceQuery = {
+    __typename?: 'Query';
+    latestPrice?:
+        | {
+              __typename?: 'LatestPrice';
+              id: string;
+              asset: string;
+              price: string;
+              pricingAsset: string;
+              block: string;
+              priceUSD: string;
+              poolId: { __typename?: 'Pool'; id: string };
+          }
+        | null
+        | undefined;
 };
 
 export type BalancerJoinExitsQueryVariables = Exact<{
@@ -3412,6 +3475,17 @@ export type BalancerJoinExitsQuery = {
     }>;
 };
 
+export type BalancerLatestPriceFragment = {
+    __typename?: 'LatestPrice';
+    id: string;
+    asset: string;
+    price: string;
+    pricingAsset: string;
+    block: string;
+    priceUSD: string;
+    poolId: { __typename?: 'Pool'; id: string };
+};
+
 export type BalancerJoinExitFragment = {
     __typename?: 'JoinExit';
     amounts: Array<string>;
@@ -3424,24 +3498,53 @@ export type BalancerJoinExitFragment = {
     pool: { __typename?: 'Pool'; id: string; tokensList: Array<string> };
 };
 
-export type BalancePortfolioDataQueryVariables = Exact<{
+export type BalancerPortfolioDataQueryVariables = Exact<{
     id: Scalars['ID'];
     previousBlockNumber: Scalars['Int'];
 }>;
 
-export type BalancePortfolioDataQuery = {
+export type BalancerPortfolioDataQuery = {
     __typename?: 'Query';
     user?:
         | {
               __typename?: 'User';
               id: string;
               sharesOwned?:
-                  | Array<{ __typename?: 'PoolShare'; balance: string; poolId: { __typename?: 'Pool'; id: string } }>
+                  | Array<{
+                        __typename?: 'PoolShare';
+                        id: string;
+                        balance: string;
+                        poolId: { __typename?: 'Pool'; id: string };
+                    }>
                   | null
                   | undefined;
           }
         | null
         | undefined;
+    previousUser?:
+        | {
+              __typename?: 'User';
+              id: string;
+              sharesOwned?:
+                  | Array<{
+                        __typename?: 'PoolShare';
+                        id: string;
+                        balance: string;
+                        poolId: { __typename?: 'Pool'; id: string };
+                    }>
+                  | null
+                  | undefined;
+          }
+        | null
+        | undefined;
+};
+
+export type BalancerPortfolioPoolsDataQueryVariables = Exact<{
+    previousBlockNumber: Scalars['Int'];
+}>;
+
+export type BalancerPortfolioPoolsDataQuery = {
+    __typename?: 'Query';
     pools: Array<{
         __typename?: 'Pool';
         id: string;
@@ -3457,6 +3560,16 @@ export type BalancePortfolioDataQuery = {
         totalShares: string;
         swapsCount: string;
         holdersCount: string;
+        createTime: number;
+        swapEnabled: boolean;
+        tokensList: Array<string>;
+        factory?: string | null | undefined;
+        expiryTime?: string | null | undefined;
+        unitSeconds?: string | null | undefined;
+        principalToken?: string | null | undefined;
+        baseToken?: string | null | undefined;
+        owner?: string | null | undefined;
+        amp?: string | null | undefined;
         tokens?:
             | Array<{
                   __typename?: 'PoolToken';
@@ -3473,17 +3586,6 @@ export type BalancePortfolioDataQuery = {
             | null
             | undefined;
     }>;
-    previousUser?:
-        | {
-              __typename?: 'User';
-              id: string;
-              sharesOwned?:
-                  | Array<{ __typename?: 'PoolShare'; balance: string; poolId: { __typename?: 'Pool'; id: string } }>
-                  | null
-                  | undefined;
-          }
-        | null
-        | undefined;
     previousPools: Array<{
         __typename?: 'Pool';
         id: string;
@@ -3499,6 +3601,16 @@ export type BalancePortfolioDataQuery = {
         totalShares: string;
         swapsCount: string;
         holdersCount: string;
+        createTime: number;
+        swapEnabled: boolean;
+        tokensList: Array<string>;
+        factory?: string | null | undefined;
+        expiryTime?: string | null | undefined;
+        unitSeconds?: string | null | undefined;
+        principalToken?: string | null | undefined;
+        baseToken?: string | null | undefined;
+        owner?: string | null | undefined;
+        amp?: string | null | undefined;
         tokens?:
             | Array<{
                   __typename?: 'PoolToken';
@@ -3517,10 +3629,49 @@ export type BalancePortfolioDataQuery = {
     }>;
 };
 
+export type BalancerTradePairSnapshotsQueryVariables = Exact<{
+    skip?: InputMaybe<Scalars['Int']>;
+    first?: InputMaybe<Scalars['Int']>;
+    orderBy?: InputMaybe<TradePairSnapshot_OrderBy>;
+    orderDirection?: InputMaybe<OrderDirection>;
+    where?: InputMaybe<TradePairSnapshot_Filter>;
+    block?: InputMaybe<Block_Height>;
+}>;
+
+export type BalancerTradePairSnapshotsQuery = {
+    __typename?: 'Query';
+    tradePairSnapshots: Array<{
+        __typename?: 'TradePairSnapshot';
+        id: string;
+        totalSwapFee: string;
+        totalSwapVolume: string;
+        timestamp: number;
+        pair: {
+            __typename?: 'TradePair';
+            token0: { __typename?: 'Token'; address: string; symbol?: string | null | undefined };
+            token1: { __typename?: 'Token'; address: string; symbol?: string | null | undefined };
+        };
+    }>;
+};
+
+export type BalancerTradePairSnapshotFragment = {
+    __typename?: 'TradePairSnapshot';
+    id: string;
+    totalSwapFee: string;
+    totalSwapVolume: string;
+    timestamp: number;
+    pair: {
+        __typename?: 'TradePair';
+        token0: { __typename?: 'Token'; address: string; symbol?: string | null | undefined };
+        token1: { __typename?: 'Token'; address: string; symbol?: string | null | undefined };
+    };
+};
+
 export const BalancerUserFragmentDoc = gql`
     fragment BalancerUser on User {
         id
         sharesOwned(first: 1000) {
+            id
             balance
             poolId {
                 id
@@ -3571,6 +3722,16 @@ export const BalancerPoolFragmentDoc = gql`
         totalShares
         swapsCount
         holdersCount
+        createTime
+        swapEnabled
+        tokensList
+        factory
+        expiryTime
+        unitSeconds
+        principalToken
+        baseToken
+        owner
+        amp
         tokens(first: 1000) {
             ...BalancerPoolToken
         }
@@ -3589,6 +3750,19 @@ export const BalancerPoolSnapshotFragmentDoc = gql`
         timestamp
     }
 `;
+export const BalancerLatestPriceFragmentDoc = gql`
+    fragment BalancerLatestPrice on LatestPrice {
+        id
+        asset
+        price
+        poolId {
+            id
+        }
+        pricingAsset
+        block
+        priceUSD
+    }
+`;
 export const BalancerJoinExitFragmentDoc = gql`
     fragment BalancerJoinExit on JoinExit {
         amounts
@@ -3603,6 +3777,24 @@ export const BalancerJoinExitFragmentDoc = gql`
         pool {
             id
             tokensList
+        }
+    }
+`;
+export const BalancerTradePairSnapshotFragmentDoc = gql`
+    fragment BalancerTradePairSnapshot on TradePairSnapshot {
+        id
+        totalSwapFee
+        totalSwapVolume
+        timestamp
+        pair {
+            token0 {
+                address
+                symbol
+            }
+            token1 {
+                address
+                symbol
+            }
         }
     }
 `;
@@ -3781,15 +3973,18 @@ export const BalancerLatestPricesDocument = gql`
             where: $where
             block: $block
         ) {
-            id
-            asset
-            price
-            poolId {
-                id
-            }
-            pricingAsset
+            ...BalancerLatestPrice
         }
     }
+    ${BalancerLatestPriceFragmentDoc}
+`;
+export const BalancerLatestPriceDocument = gql`
+    query BalancerLatestPrice($id: ID!) {
+        latestPrice(id: $id) {
+            ...BalancerLatestPrice
+        }
+    }
+    ${BalancerLatestPriceFragmentDoc}
 `;
 export const BalancerJoinExitsDocument = gql`
     query BalancerJoinExits(
@@ -3813,23 +4008,49 @@ export const BalancerJoinExitsDocument = gql`
     }
     ${BalancerJoinExitFragmentDoc}
 `;
-export const BalancePortfolioDataDocument = gql`
-    query BalancePortfolioData($id: ID!, $previousBlockNumber: Int!) {
+export const BalancerPortfolioDataDocument = gql`
+    query BalancerPortfolioData($id: ID!, $previousBlockNumber: Int!) {
         user(id: $id) {
             ...BalancerUser
         }
-        pools(first: 1000, where: { totalShares_gt: "0" }) {
-            ...BalancerPool
-        }
         previousUser: user(id: $id, block: { number: $previousBlockNumber }) {
             ...BalancerUser
+        }
+    }
+    ${BalancerUserFragmentDoc}
+`;
+export const BalancerPortfolioPoolsDataDocument = gql`
+    query BalancerPortfolioPoolsData($previousBlockNumber: Int!) {
+        pools(first: 1000, where: { totalShares_gt: "0" }) {
+            ...BalancerPool
         }
         previousPools: pools(first: 1000, where: { totalShares_gt: "0" }, block: { number: $previousBlockNumber }) {
             ...BalancerPool
         }
     }
-    ${BalancerUserFragmentDoc}
     ${BalancerPoolFragmentDoc}
+`;
+export const BalancerTradePairSnapshotsDocument = gql`
+    query BalancerTradePairSnapshots(
+        $skip: Int
+        $first: Int
+        $orderBy: TradePairSnapshot_orderBy
+        $orderDirection: OrderDirection
+        $where: TradePairSnapshot_filter
+        $block: Block_height
+    ) {
+        tradePairSnapshots(
+            skip: $skip
+            first: $first
+            orderBy: $orderBy
+            orderDirection: $orderDirection
+            where: $where
+            block: $block
+        ) {
+            ...BalancerTradePairSnapshot
+        }
+    }
+    ${BalancerTradePairSnapshotFragmentDoc}
 `;
 
 export type SdkFunctionWrapper = <T>(
@@ -3845,6 +4066,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             variables?: BalancerProtocolDataQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerProtocolDataQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = Balancer_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerProtocolDataQuery>(BalancerProtocolDataDocument, variables, {
@@ -3871,6 +4097,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             variables?: BalancerUsersQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerUsersQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = User_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerUsersQuery>(BalancerUsersDocument, variables, {
@@ -3884,6 +4115,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             variables?: BalancerTokenPricesQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerTokenPricesQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = TokenPrice_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerTokenPricesQuery>(BalancerTokenPricesDocument, variables, {
@@ -3897,6 +4133,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             variables?: BalancerPoolsQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerPoolsQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = Pool_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerPoolsQuery>(BalancerPoolsDocument, variables, {
@@ -3923,6 +4164,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             variables?: BalancerPoolHistoricalLiquiditiesQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerPoolHistoricalLiquiditiesQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = PoolHistoricalLiquidity_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerPoolHistoricalLiquiditiesQuery>(
@@ -3937,6 +4183,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             variables?: BalancerPoolSnapshotsQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerPoolSnapshotsQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = PoolSnapshot_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerPoolSnapshotsQuery>(BalancerPoolSnapshotsDocument, variables, {
@@ -3950,6 +4201,11 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             variables?: BalancerLatestPricesQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerLatestPricesQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = LatestPrice_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerLatestPricesQuery>(BalancerLatestPricesDocument, variables, {
@@ -3959,10 +4215,28 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
                 'BalancerLatestPrices',
             );
         },
+        BalancerLatestPrice(
+            variables: BalancerLatestPriceQueryVariables,
+            requestHeaders?: Dom.RequestInit['headers'],
+        ): Promise<BalancerLatestPriceQuery> {
+            return withWrapper(
+                (wrappedRequestHeaders) =>
+                    client.request<BalancerLatestPriceQuery>(BalancerLatestPriceDocument, variables, {
+                        ...requestHeaders,
+                        ...wrappedRequestHeaders,
+                    }),
+                'BalancerLatestPrice',
+            );
+        },
         BalancerJoinExits(
             variables?: BalancerJoinExitsQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
         ): Promise<BalancerJoinExitsQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = JoinExit_OrderBy.Id
+                }
+            }
             return withWrapper(
                 (wrappedRequestHeaders) =>
                     client.request<BalancerJoinExitsQuery>(BalancerJoinExitsDocument, variables, {
@@ -3972,17 +4246,48 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
                 'BalancerJoinExits',
             );
         },
-        BalancePortfolioData(
-            variables: BalancePortfolioDataQueryVariables,
+        BalancerPortfolioData(
+            variables: BalancerPortfolioDataQueryVariables,
             requestHeaders?: Dom.RequestInit['headers'],
-        ): Promise<BalancePortfolioDataQuery> {
+        ): Promise<BalancerPortfolioDataQuery> {
             return withWrapper(
                 (wrappedRequestHeaders) =>
-                    client.request<BalancePortfolioDataQuery>(BalancePortfolioDataDocument, variables, {
+                    client.request<BalancerPortfolioDataQuery>(BalancerPortfolioDataDocument, variables, {
                         ...requestHeaders,
                         ...wrappedRequestHeaders,
                     }),
-                'BalancePortfolioData',
+                'BalancerPortfolioData',
+            );
+        },
+        BalancerPortfolioPoolsData(
+            variables: BalancerPortfolioPoolsDataQueryVariables,
+            requestHeaders?: Dom.RequestInit['headers'],
+        ): Promise<BalancerPortfolioPoolsDataQuery> {
+            return withWrapper(
+                (wrappedRequestHeaders) =>
+                    client.request<BalancerPortfolioPoolsDataQuery>(BalancerPortfolioPoolsDataDocument, variables, {
+                        ...requestHeaders,
+                        ...wrappedRequestHeaders,
+                    }),
+                'BalancerPortfolioPoolsData',
+            );
+        },
+        BalancerTradePairSnapshots(
+            variables?: BalancerTradePairSnapshotsQueryVariables,
+            requestHeaders?: Dom.RequestInit['headers'],
+        ): Promise<BalancerTradePairSnapshotsQuery> {
+            if (variables) {
+                if(!variables.orderBy) {
+                    variables.orderBy = TradePairSnapshot_OrderBy.Id
+                }
+            }
+            return withWrapper(
+                (wrappedRequestHeaders) =>
+                    client.request<BalancerTradePairSnapshotsQuery>(BalancerTradePairSnapshotsDocument, variables, {
+                        ...requestHeaders,
+                        ...wrappedRequestHeaders,
+                    }),
+                'BalancerTradePairSnapshots',
             );
         },
     };

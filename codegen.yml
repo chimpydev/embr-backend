@@ -19,6 +19,22 @@ generates:
     schema: ${BALANCER_SUBGRAPH}
     plugins:
       - schema-ast
+modules/xembr-subgraph/generated/xembr-subgraph-types.ts:
+    schema: ${XEMBR_SUBGRAPH}
+    documents: 'modules/xembr-subgraph/xembr.graphql'
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request
+    config:
+      scalars:
+        BigInt: string
+        Bytes: string
+        BigDecimal: string
+  modules/xmbr-subgraph/generated/xembr-subgraph-schema.graphql:
+    schema: ${XEMBR_SUBGRAPH}
+    plugins:
+      - schema-ast
   modules/masterchef-subgraph/generated/masterchef-subgraph-types.ts:
     schema: ${MASTERCHEF_SUBGRAPH}
     documents: 'modules/masterchef-subgraph/masterchef-subgraph-queries.graphql'
@@ -80,6 +96,9 @@ generates:
       scalars:
         #    Binary: Buffer
         #    Cursor: string
-        #    Datetime: Date
+        Date: Date
         UUID: string
         GqlBigNumber: string
+        Bytes: string
+        BigDecimal: string
+        BigInt: string

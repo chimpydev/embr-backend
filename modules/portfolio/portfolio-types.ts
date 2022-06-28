@@ -1,4 +1,14 @@
+import {
+    Prisma,
+    PrismaBalancerPoolSnapshot,
+    PrismaBalancerPoolTokenSnapshot,
+    PrismaFarm,
+    PrismaFarmUserSnapshot,
+    PrismaToken,
+} from '@prisma/client';
+
 export interface UserPortfolioData {
+    date: string;
     timestamp: number;
     totalValue: number;
     totalSwapFees: number;
@@ -7,7 +17,30 @@ export interface UserPortfolioData {
 
     pools: UserPoolData[];
     tokens: UserTokenData[];
+    //xembr: UserXembrData;
 }
+
+export interface UserXembrData {
+    id: string;
+    totalRewardValue: number;
+    xembrBalance: number;
+    shares: number;
+    percentShare: number;
+    questMultiplier: number;
+    timeMultiplier: number;
+    rewardTokens: UserRewardTokenData[];
+  }
+  
+  export interface UserRewardTokenData {
+    id: string;
+    address: string;
+    symbol: string;
+    name: string;
+    claimed: number;
+    pending: number;
+    totalValue: number;
+  }
+
 
 export interface UserPoolData {
     id: string;
@@ -37,3 +70,16 @@ export interface UserTokenData {
     totalValue: number;
     percentOfPortfolio: number;
 }
+
+export type PrismaFarmUserSnapshotWithFarm = PrismaFarmUserSnapshot & { farm: PrismaFarm };
+export type PrismaBalancerPoolTokenSnapshotWithToken = PrismaBalancerPoolTokenSnapshot & { token: PrismaToken };
+export type PrismaBalancerPoolSnapshotWithTokens = PrismaBalancerPoolSnapshot & {
+    tokens: PrismaBalancerPoolTokenSnapshotWithToken[];
+};
+
+export type PrismaBlockExtended = Prisma.PrismaBlockGetPayload<{
+    include: {
+        poolShares: { include: { poolSnapshot: { include: { tokens: { include: { token: true } } } } } };
+        farmUsers: { include: { farm: true } };
+    };
+}>;

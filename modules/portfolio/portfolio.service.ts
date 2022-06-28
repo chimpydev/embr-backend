@@ -1,188 +1,208 @@
-import { balancerService } from '../balancer-subgraph/balancer.service';
-import { masterchefService } from '../masterchef-subgraph/masterchef.service';
-import {
-    BalancerJoinExitFragment,
-    BalancerPoolFragment,
-    BalancerPoolTokenFragment,
-    BalancerUserFragment,
-    InvestType,
-} from '../balancer-subgraph/generated/balancer-subgraph-types';
-import { FarmUserFragment } from '../masterchef-subgraph/generated/masterchef-subgraph-types';
+import { BalancerJoinExitFragment, InvestType } from '../balancer-subgraph/generated/balancer-subgraph-types';
 import { BigNumber } from 'ethers';
-import { bn, fromFp } from '../util/numbers';
+import { fromFp } from '../util/numbers';
 import _ from 'lodash';
 import { TokenPrices } from '../token-price/token-price-types';
 import { tokenPriceService } from '../token-price/token-price.service';
-import { blocksSubgraphService } from '../blocks-subgraph/blocks-subgraph.service';
-import { UserPoolData, UserPortfolioData, UserTokenData } from './portfolio-types';
+import {
+    PrismaBalancerPoolSnapshotWithTokens,
+    PrismaBalancerPoolTokenSnapshotWithToken,
+    PrismaBlockExtended,
+    PrismaFarmUserSnapshotWithFarm,
+    UserPoolData,
+    UserPortfolioData,
+    UserTokenData,
+    UserRewardTokenData,
+    UserXembrData
+} from './portfolio-types';
 import moment from 'moment-timezone';
-import { GqlBalancerPool, GqlUserPortfolioData, GqlUserTokenData } from '../../schema';
+import { GqlUserPortfolioData, GqlUserTokenData } from '../../schema';
 import { balancerTokenMappings } from '../token-price/lib/balancer-token-mappings';
 import { env } from '../../app/env';
-//import { embrPitService } from '../embr-pit-subgraph/embr-pit.service';
-//import { EmbrPitFragment, EmbrPitUserFragment } from '../embr-pit-subgraph/generated/embr-pit-subgraph-types';
+import { PortfolioDataService } from './lib/portfolio-data.service';
+import { prisma } from '../prisma/prisma-client';
+import {
+    PrismaBalancerPool,
+    PrismaBalancerPoolShareSnapshot
+} from '@prisma/client';
+import { cache } from '../cache/cache';
+import { getAddress } from 'ethers/lib/utils';
+
+const PORTFOLIO_USER_DATA_CACHE_KEY_PREFIX = 'portfolio:user-data:';
 
 class PortfolioService {
-    constructor() {}
+    dataService: PortfolioDataService;
+
+    constructor() {
+        this.dataService = new PortfolioDataService();
+    }
 
     public async getPortfolio(address: string): Promise<UserPortfolioData> {
-        const previousBlock = await blocksSubgraphService.getBlockFrom24HoursAgo();
-        const { user, pools, previousUser, previousPools } = await balancerService.getPortfolioData(
-            address,
-            parseInt(previousBlock.number),
+        const cached = await cache.getObjectValue<UserPortfolioData | { empty: true }>(
+            `${PORTFOLIO_USER_DATA_CACHE_KEY_PREFIX}${address}`,
         );
-        const { farmUsers, previousFarmUsers } = await masterchefService.getPortfolioData({
-            address,
-            previousBlockNumber: parseInt(previousBlock.number),
-        });
-        //const { embrPitUser, previousEmbrPitUser, embrPit, previousEmbrPit } =
-        //    await embrPitService.getPortfolioData(address, parseInt(previousBlock.number));
+
+        if (cached !== null) {
+            return 'empty' in cached ? this.emptyPortfolioData : cached;
+        }
+
+        const data = await this.dataService.getPortfolioDataForNow(address);
+
+        if (data === null) {
+            await cache.putObjectValue(`${PORTFOLIO_USER_DATA_CACHE_KEY_PREFIX}${address}`, { empty: true }, 0.5);
+
+            return this.emptyPortfolioData;
+        }
+
         const tokenPrices = await tokenPriceService.getTokenPrices();
         const historicalTokenPrices = await tokenPriceService.getHistoricalTokenPrices();
         const previousTokenPrices = tokenPriceService.getTokenPricesForTimestamp(
-            previousBlock.timestamp,
+            data.previousBlock.timestamp,
             historicalTokenPrices,
         );
 
-        if (!user) {
-            return {
-                pools: [],
-                tokens: [],
-                totalValue: 0,
-                totalSwapFees: 0,
-                totalSwapVolume: 0,
-                timestamp: 0,
-                myFees: 0,
-            };
-        }
-
         const poolData = this.getUserPoolData(
-            user,
-            previousUser || user,
-            pools,
-            previousPools,
-            farmUsers,
-            previousFarmUsers,
+            data.pools,
+            data.block,
+            data.previousBlock,
             tokenPrices,
             previousTokenPrices,
-            //embrPit,
-            //previousEmbrPit,
-            //embrPitUser,
-            //previousEmbrPitUser,
         );
         const tokens = this.tokensFromUserPoolData(poolData);
 
-        return {
+        const response: UserPortfolioData = {
             pools: poolData,
             tokens,
             timestamp: moment().unix(),
+            date: moment().format('YYYY-MM-DD'),
             totalValue: _.sumBy(poolData, 'totalValue'),
             totalSwapFees: _.sumBy(poolData, 'swapFees'),
             totalSwapVolume: _.sumBy(poolData, 'swapVolume'),
             myFees: _.sumBy(poolData, 'myFees'),
         };
+
+        await cache.putObjectValue(`${PORTFOLIO_USER_DATA_CACHE_KEY_PREFIX}${address}`, response, 0.5);
+
+        return response;
     }
 
-    public async getPortfolioHistory(address: string): Promise<UserPortfolioData[]> {
-        const historicalTokenPrices = await tokenPriceService.getHistoricalTokenPrices();
-        const blocks = await blocksSubgraphService.getDailyBlocks(30);
+    public async cacheRawDataForTimestamp(timestamp: number): Promise<void> {
+        await this.dataService.cacheRawDataForTimestamp(timestamp);
+    }
+
+    public async getPortfolioHistory(address: string, useCache = true): Promise<UserPortfolioData[]> {
+        /*if (useCache) {
+            console.log("xploited returning cached history")
+            const cached = await this.dataService.getCachedPortfolioHistory(address);
+
+            if (cached !== null) {
+
+                console.log("xploited returning cached history", cached)
+                return cached;
+            }
+        }*/
+        
+        const timestamp = moment.tz('GMT').startOf('day').subtract(30, 'days').unix();
         const portfolioHistories: UserPortfolioData[] = [];
+        const historicalTokenPrices = await tokenPriceService.getHistoricalTokenPrices();
+        const pools = await prisma.prismaBalancerPool.findMany({});
+        const blocks = await prisma.prismaBlock.findMany({
+            where: { timestamp: { gte: timestamp } },
+            include: {
+                poolShares: {
+                    where: { userAddress: address },
+                    include: { poolSnapshot: { include: { tokens: { include: { token: true } } } } },
+                },
+                farmUsers: { where: { userAddress: address }, include: { farm: true } },
+            },
+            orderBy: { timestamp: 'desc' },
+        });
+
+        //historical token prices haven't yet loaded, bail out of here
+        if (Object.keys(historicalTokenPrices).length === 0) {
+            return [];
+        }
 
         for (let i = 0; i < blocks.length - 1; i++) {
             const block = blocks[i];
             const previousBlock = blocks[i + 1];
-            const blockNumber = parseInt(block.number);
+            const date = moment.unix(block.timestamp).subtract(1, 'day').format('YYYY-MM-DD');
 
             const tokenPrices = tokenPriceService.getTokenPricesForTimestamp(block.timestamp, historicalTokenPrices);
-            const user = await balancerService.getUserAtBlock(address, blockNumber);
-            const allFarmUsers = await masterchefService.getAllFarmUsersAtBlock(blockNumber);
-            const pools = await balancerService.getAllPoolsAtBlock(blockNumber);
-            const previousPools = await balancerService.getAllPoolsAtBlock(parseInt(previousBlock.number));
-            const allPreviousFarmUsers = await masterchefService.getAllFarmUsersAtBlock(parseInt(previousBlock.number));
-            const previousUser = await balancerService.getUserAtBlock(address, parseInt(previousBlock.number));
             const previousTokenPrices = tokenPriceService.getTokenPricesForTimestamp(
                 previousBlock.timestamp,
                 historicalTokenPrices,
             );
-           // const embrPit = await embrPitService.getEmbrPit(blockNumber);
-           // const previousEmbrPit = await embrPitService.getEmbrPit(parseInt(previousBlock.number));
-           // const embrPitUser = await embrPitService.getUserAtBlock(address, blockNumber);
-           // const previousEmbrPitUser = await embrPitService.getUserAtBlock(address, parseInt(previousBlock.number));
-            //const allJoinExits = await balancerService.getAllJoinExitsAtBlock(blockNumber);
 
-            if (user && previousUser) {
-                const farmUsers = allFarmUsers.filter((famUser) => famUser.address === user.id);
-                const previousFarmUsers = allPreviousFarmUsers.filter((famUser) => famUser.address === user.id);
-                const poolData = this.getUserPoolData(
-                    user,
-                    previousUser,
-                    pools,
-                    previousPools,
-                    farmUsers,
-                    previousFarmUsers,
-                    tokenPrices,
-                    previousTokenPrices,
-                    //embrPit,
-                    //previousEmbrPit,
-                    //embrPitUser,
-                    //previousEmbrPitUser,
-                );
-                const tokens = this.tokensFromUserPoolData(poolData);
-                //const joinExits = allJoinExits.filter((joinExit) => joinExit.user.id === user.id);
-                //const summedJoinExits = this.sumJoinExits(joinExits, tokenPrices);
+            const poolData = this.getUserPoolData(pools, block, previousBlock, tokenPrices, previousTokenPrices);
+            const tokens = this.tokensFromUserPoolData(poolData);
 
-                const totalValue = _.sumBy(poolData, 'totalValue');
+            const totalValue = _.sumBy(poolData, 'totalValue');
 
-                if (totalValue > 0) {
-                    portfolioHistories.push({
-                        tokens,
-                        pools: poolData,
-                        //this data represents the previous day
-                        timestamp: moment.unix(parseInt(block.timestamp)).subtract(1, 'day').unix(),
-                        totalValue,
-                        totalSwapFees: _.sumBy(poolData, 'swapFees'),
-                        totalSwapVolume: _.sumBy(poolData, 'swapVolume'),
-                        myFees: _.sumBy(poolData, 'myFees'),
-                    });
-                }
+           // console.log("xploited checking total value", date, totalValue)
+            if (totalValue > 0) {
+                const data = {
+                    tokens,
+                    pools: poolData,
+                    //this data represents the previous day
+                    timestamp: moment.unix(block.timestamp).subtract(1, 'day').unix(),
+                    date,
+                    totalValue,
+                    totalSwapFees: _.sumBy(poolData, 'swapFees'),
+                    totalSwapVolume: _.sumBy(poolData, 'swapVolume'),
+                    myFees: _.sumBy(poolData, 'myFees'),
+                };
+
+                portfolioHistories.push(data);
             }
+        }
+
+        if (blocks.length > 0) {
+            await this.dataService.cachePortfolioHistory(address, blocks[0].timestamp, portfolioHistories);
         }
 
         return portfolioHistories;
     }
 
     public getUserPoolData(
-        balancerUser: BalancerUserFragment,
-        previousBalancerUser: BalancerUserFragment,
-        pools: BalancerPoolFragment[],
-        previousPools: BalancerPoolFragment[],
-        userFarms: FarmUserFragment[],
-        previousUserFarms: FarmUserFragment[],
+        pools: PrismaBalancerPool[],
+        block: PrismaBlockExtended,
+        previousBlock: PrismaBlockExtended,
         tokenPrices: TokenPrices,
         previousTokenPrices: TokenPrices,
-        //embrPit: EmbrPitFragment,
-        //previousEmbrPit: EmbrPitFragment,
-        //embrPitUser: EmbrPitUserFragment | null,
-        //previousEmbrPitUser: EmbrPitUserFragment | null,
     ): UserPoolData[] {
         const userPoolData: Omit<UserPoolData, 'percentOfPortfolio'>[] = [];
 
         for (const pool of pools) {
-            //if no previous pool, it means this pool is less than 24 hours old. Use the current pool so we get zeros
-            const previousPool = previousPools.find((previousPool) => previousPool.id === pool.id) || pool;
+            const snapshot = block.poolShares.find((share) => share.poolId === pool.id)?.poolSnapshot;
+
+            if (!snapshot) {
+                continue;
+            }
+
+            //if no previous snapshot, it means this pool is less than 24 hours old. Use the current pool so we get zeros
+            const previousSnapshot =
+                previousBlock.poolShares.find((share) => share.poolId === pool.id)?.poolSnapshot || snapshot;
 
             const { userNumShares, userPercentShare, userTotalValue, userTokens, pricePerShare } =
-                this.generatePoolIntermediates(pool, balancerUser, userFarms, tokenPrices);//, embrPit, embrPitUser);
+                this.generatePoolIntermediates(
+                    pool,
+                    snapshot,
+                    block.poolShares.filter((share) => share.poolId === pool.id),
+                    block.farmUsers,
+                    tokenPrices,
+                );
+
             const previous = this.generatePoolIntermediates(
-                previousPool,
-                previousBalancerUser,
-                previousUserFarms,
-                previousTokenPrices//,
-               // previousEmbrPit,
-                //previousEmbrPitUser,
+                pool,
+                previousSnapshot,
+                previousBlock.poolShares.filter((share) => share.poolId === pool.id),
+                previousBlock.farmUsers,
+                previousTokenPrices,
             );
 
-            const swapFees = parseFloat(pool.totalSwapFee) - parseFloat(previousPool.totalSwapFee);
+            const swapFees = parseFloat(snapshot.totalSwapFee) - parseFloat(previousSnapshot.totalSwapFee);
+            const myFees = swapFees * userPercentShare;
 
             if (userNumShares > 0) {
                 userPoolData.push({
@@ -196,11 +216,12 @@ class PortfolioService {
                     pricePerShare: Number.isNaN(userTotalValue / userNumShares) === true ? 0 : userTotalValue / userNumShares,
                     tokens: userTokens.map((token) => ({
                         ...token,
-                        percentOfPortfolio:  Number.isNaN(token.totalValue / userTotalValue) === true ? 0 : token.totalValue / userTotalValue,
+                        percentOfPortfolio:
+                            token.totalValue > 0 && userTotalValue > 0 ? token.totalValue / userTotalValue : 0,
                     })),
                     swapFees,
-                    swapVolume: parseFloat(pool.totalSwapVolume) - parseFloat(previousPool.totalSwapVolume),
-                    myFees: swapFees * userPercentShare,
+                    swapVolume: parseFloat(snapshot.totalSwapVolume) - parseFloat(previousSnapshot.totalSwapVolume),
+                    myFees: myFees > 0 ? myFees : 0,
                     priceChange:
                         pricePerShare && previous.pricePerShare
                             ? userNumShares * pricePerShare - userNumShares * previous.pricePerShare
@@ -217,46 +238,32 @@ class PortfolioService {
 
         return _.orderBy(userPoolData, 'totalValue', 'desc').map((pool) => ({
             ...pool,
-            percentOfPortfolio: pool.totalValue / totalValue,
+            percentOfPortfolio: pool.totalValue > 0 && totalValue > 0 ? pool.totalValue / totalValue : 0,
         }));
     }
 
-    public async getCachedPools(): Promise<GqlBalancerPool[]> {
-        const blocks = await blocksSubgraphService.getDailyBlocks(30);
-        let balancePools: GqlBalancerPool[] = [];
-
-        for (let i = 0; i < blocks.length - 1; i++) {
-            const block = blocks[i];
-            const blockNumber = parseInt(block.number);
-
-            const pools = await balancerService.getAllPoolsAtBlock(blockNumber);
-            balancePools = [
-                ...balancePools,
-                ...pools.map((pool) => ({
-                    ...pool,
-                    __typename: 'GqlBalancerPool' as const,
-                    block: block.number,
-                    timestamp: block.timestamp,
-                })),
-            ];
-        }
-
-        return balancePools;
+    public async refreshLatestBlockCachedTimestamp(): Promise<void> {
+        await this.dataService.refreshLatestBlockCachedTimestamp();
     }
 
     private mapPoolTokenToUserPoolTokenData(
-        token: BalancerPoolTokenFragment,
+        snapshot: PrismaBalancerPoolTokenSnapshotWithToken,
         percentShare: number,
         tokenPrices: TokenPrices,
     ): Omit<UserTokenData, 'percentOfPortfolio'> {
-        const pricePerToken = tokenPrices[token.address.toLowerCase()]?.usd || 0;
-        const balance = parseFloat(token.balance) * percentShare;
+        const token = snapshot.token;
+        const pricePerToken =
+            tokenPrices[token.address]?.usd ||
+            tokenPrices[getAddress(token.address)]?.usd ||
+            tokenPrices[token.address.toLowerCase()]?.usd ||
+            0;
+        const balance = parseFloat(snapshot.balance) * percentShare;
 
         return {
-            id: token.id,
-            address: token.address || '',
-            symbol: balancerTokenMappings.tokenSymbolOverwrites[token.symbol || ''] || token.symbol || '',
-            name: token.name || '',
+            id: snapshot.id,
+            address: token.address,
+            symbol: balancerTokenMappings.tokenSymbolOverwrites[token.symbol] || token.symbol,
+            name: token.name,
             pricePerToken,
             balance,
             totalValue: pricePerToken * balance,
@@ -314,26 +321,23 @@ class PortfolioService {
     }
 
     private generatePoolIntermediates(
-        pool: BalancerPoolFragment,
-        balancerUser: BalancerUserFragment,
-        userFarms: FarmUserFragment[],
-        tokenPrices: TokenPrices,
-        //embrPit: EmbrPitFragment,
-        //embrPitUser: EmbrPitUserFragment | null,
+        pool: PrismaBalancerPool,
+        snapshot: PrismaBalancerPoolSnapshotWithTokens,
+        poolShares: PrismaBalancerPoolShareSnapshot[],
+        userFarms: PrismaFarmUserSnapshotWithFarm[],
+        tokenPrices: TokenPrices
     ) {
-        //const embrPitSharesForPool = this.getUserEmbrPitSharesForPool(pool, userFarms, embrPit, embrPitUser);
-        const sharesOwned = balancerUser.sharesOwned?.find((shares) => shares.poolId.id === pool.id);
-        const userFarm = userFarms.find((userFarm) => userFarm.pool?.pair === pool.address);
+        const poolShare = poolShares.find((shares) => shares.poolId === pool.id);
+        const userFarm = userFarms.find((userFarm) => userFarm.farm.pair === pool.address);
         const userNumShares =
-            parseFloat(sharesOwned?.balance || '0') +
-            fromFp(BigNumber.from(userFarm?.amount || 0)).toNumber()// +
-           // embrPitSharesForPool;
-        const poolTotalShares = parseFloat(pool.totalShares);
-        const poolTotalValue = this.getPoolValue(pool, tokenPrices);
-        const userPercentShare =  Number.isNaN(userNumShares / poolTotalShares) === true ? 0 : userNumShares / poolTotalShares;
+            parseFloat(poolShare?.balance || '0') +
+            fromFp(BigNumber.from(userFarm?.amount || 0)).toNumber()
+        const poolTotalShares = parseFloat(snapshot.totalShares);
+        const poolTotalValue = this.getPoolValue(snapshot, tokenPrices);
+        const userPercentShare = userNumShares / poolTotalShares;
         const userTokens = _.orderBy(
-            (pool.tokens || []).map((token) =>
-                this.mapPoolTokenToUserPoolTokenData(token, userPercentShare, tokenPrices),
+            (snapshot.tokens || []).map((snapshot) =>
+                this.mapPoolTokenToUserPoolTokenData(snapshot, userPercentShare, tokenPrices),
             ),
             'totalValue',
             'desc',
@@ -351,24 +355,7 @@ class PortfolioService {
         };
     }
 
-    private getUserEmbrPitSharesForPool(
-        pool: BalancerPoolFragment,
-        userFarms: FarmUserFragment[],
-        //embrPit: EmbrPitFragment,
-        //embrPitUser: EmbrPitUserFragment | null,
-    ): number {
-        if (pool.id !== env.CEMBR_POOL_ID) {
-            return 0;
-        }
-
-        const userCembrFarm = userFarms.find((userFarm) => userFarm.pool?.pair === env.CEMBR_ADDRESS);
-        const userStakedCembr = fromFp(userCembrFarm?.amount || '0').toNumber();
-        //const userCembr = parseFloat(embrPitUser?.cEmbr || '0');
-
-        return 0 //(userStakedCembr + userCembr) * parseFloat(embrPit.ratio);
-    }
-
-    private getPoolValue(pool: BalancerPoolFragment, tokenPrices: TokenPrices): number {
+    private getPoolValue(pool: PrismaBalancerPoolSnapshotWithTokens, tokenPrices: TokenPrices): number {
         return _.sum(
             (pool.tokens || []).map((token) => parseFloat(token.balance) * (tokenPrices[token.address]?.usd || 0)),
         );
@@ -402,6 +389,19 @@ class PortfolioService {
             balance: `${token.balance}`,
             pricePerToken: `${token.pricePerToken}`,
             totalValue: `${token.totalValue}`,
+        };
+    }
+
+    private get emptyPortfolioData(): UserPortfolioData {
+        return {
+            date: '',
+            pools: [],
+            tokens: [],
+            totalValue: 0,
+            totalSwapFees: 0,
+            totalSwapVolume: 0,
+            timestamp: 0,
+            myFees: 0,
         };
     }
 }

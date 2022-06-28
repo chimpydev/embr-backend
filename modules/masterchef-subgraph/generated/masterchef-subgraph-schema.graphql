@@ -16,6 +16,231 @@ input Block_height {
 
 scalar Bytes
 
+type Claimed {
+    address: Bytes!
+    block: BigInt!
+    id: ID!
+    owner: XUser
+    timestamp: BigInt!
+    total: BigInt!
+}
+
+input Claimed_filter {
+    address: Bytes
+    address_contains: Bytes
+    address_in: [Bytes!]
+    address_not: Bytes
+    address_not_contains: Bytes
+    address_not_in: [Bytes!]
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    owner: String
+    owner_contains: String
+    owner_ends_with: String
+    owner_gt: String
+    owner_gte: String
+    owner_in: [String!]
+    owner_lt: String
+    owner_lte: String
+    owner_not: String
+    owner_not_contains: String
+    owner_not_ends_with: String
+    owner_not_in: [String!]
+    owner_not_starts_with: String
+    owner_starts_with: String
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+    total: BigInt
+    total_gt: BigInt
+    total_gte: BigInt
+    total_in: [BigInt!]
+    total_lt: BigInt
+    total_lte: BigInt
+    total_not: BigInt
+    total_not_in: [BigInt!]
+}
+
+enum Claimed_orderBy {
+    address
+    block
+    id
+    owner
+    timestamp
+    total
+}
+
+type Governance {
+    block: BigInt!
+    id: ID!
+    purposalCount: BigInt!
+    purposals(
+        first: Int = 100
+        orderBy: Purposal_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+        where: Purposal_filter
+    ): [Purposal!]
+    quorumVotes: BigInt!
+    timestamp: BigInt!
+}
+
+input Governance_filter {
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    purposalCount: BigInt
+    purposalCount_gt: BigInt
+    purposalCount_gte: BigInt
+    purposalCount_in: [BigInt!]
+    purposalCount_lt: BigInt
+    purposalCount_lte: BigInt
+    purposalCount_not: BigInt
+    purposalCount_not_in: [BigInt!]
+    quorumVotes: BigInt
+    quorumVotes_gt: BigInt
+    quorumVotes_gte: BigInt
+    quorumVotes_in: [BigInt!]
+    quorumVotes_lt: BigInt
+    quorumVotes_lte: BigInt
+    quorumVotes_not: BigInt
+    quorumVotes_not_in: [BigInt!]
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+}
+
+enum Governance_orderBy {
+    block
+    id
+    purposalCount
+    purposals
+    quorumVotes
+    timestamp
+}
+
+type Lock {
+    action: Int!
+    amount: BigInt!
+    block: BigInt!
+    id: ID!
+    locktime: BigInt!
+    owner: XUser
+    timestamp: BigInt!
+}
+
+input Lock_filter {
+    action: Int
+    action_gt: Int
+    action_gte: Int
+    action_in: [Int!]
+    action_lt: Int
+    action_lte: Int
+    action_not: Int
+    action_not_in: [Int!]
+    amount: BigInt
+    amount_gt: BigInt
+    amount_gte: BigInt
+    amount_in: [BigInt!]
+    amount_lt: BigInt
+    amount_lte: BigInt
+    amount_not: BigInt
+    amount_not_in: [BigInt!]
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    locktime: BigInt
+    locktime_gt: BigInt
+    locktime_gte: BigInt
+    locktime_in: [BigInt!]
+    locktime_lt: BigInt
+    locktime_lte: BigInt
+    locktime_not: BigInt
+    locktime_not_in: [BigInt!]
+    owner: String
+    owner_contains: String
+    owner_ends_with: String
+    owner_gt: String
+    owner_gte: String
+    owner_in: [String!]
+    owner_lt: String
+    owner_lte: String
+    owner_not: String
+    owner_not_contains: String
+    owner_not_ends_with: String
+    owner_not_in: [String!]
+    owner_not_starts_with: String
+    owner_starts_with: String
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+}
+
+enum Lock_orderBy {
+    action
+    amount
+    block
+    id
+    locktime
+    owner
+    timestamp
+}
+
 type MasterChef {
     block: BigInt!
     embrPerSec: BigInt!
@@ -294,11 +519,298 @@ enum Pool_orderBy {
     users
 }
 
+type Purposal {
+    againstVotes: BigInt!
+    block: BigInt!
+    details: String!
+    duration: BigInt!
+    endDate: BigInt!
+    executed: Boolean!
+    executor: Bytes!
+    forVotes: BigInt!
+    governance: Governance
+    id: ID!
+    index: BigInt!
+    metadata: String!
+    proposer: XUser!
+    startDate: BigInt!
+    state: BigInt!
+    timestamp: BigInt!
+    title: String!
+}
+
+input Purposal_filter {
+    againstVotes: BigInt
+    againstVotes_gt: BigInt
+    againstVotes_gte: BigInt
+    againstVotes_in: [BigInt!]
+    againstVotes_lt: BigInt
+    againstVotes_lte: BigInt
+    againstVotes_not: BigInt
+    againstVotes_not_in: [BigInt!]
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    details: String
+    details_contains: String
+    details_ends_with: String
+    details_gt: String
+    details_gte: String
+    details_in: [String!]
+    details_lt: String
+    details_lte: String
+    details_not: String
+    details_not_contains: String
+    details_not_ends_with: String
+    details_not_in: [String!]
+    details_not_starts_with: String
+    details_starts_with: String
+    duration: BigInt
+    duration_gt: BigInt
+    duration_gte: BigInt
+    duration_in: [BigInt!]
+    duration_lt: BigInt
+    duration_lte: BigInt
+    duration_not: BigInt
+    duration_not_in: [BigInt!]
+    endDate: BigInt
+    endDate_gt: BigInt
+    endDate_gte: BigInt
+    endDate_in: [BigInt!]
+    endDate_lt: BigInt
+    endDate_lte: BigInt
+    endDate_not: BigInt
+    endDate_not_in: [BigInt!]
+    executed: Boolean
+    executed_in: [Boolean!]
+    executed_not: Boolean
+    executed_not_in: [Boolean!]
+    executor: Bytes
+    executor_contains: Bytes
+    executor_in: [Bytes!]
+    executor_not: Bytes
+    executor_not_contains: Bytes
+    executor_not_in: [Bytes!]
+    forVotes: BigInt
+    forVotes_gt: BigInt
+    forVotes_gte: BigInt
+    forVotes_in: [BigInt!]
+    forVotes_lt: BigInt
+    forVotes_lte: BigInt
+    forVotes_not: BigInt
+    forVotes_not_in: [BigInt!]
+    governance: String
+    governance_contains: String
+    governance_ends_with: String
+    governance_gt: String
+    governance_gte: String
+    governance_in: [String!]
+    governance_lt: String
+    governance_lte: String
+    governance_not: String
+    governance_not_contains: String
+    governance_not_ends_with: String
+    governance_not_in: [String!]
+    governance_not_starts_with: String
+    governance_starts_with: String
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    index: BigInt
+    index_gt: BigInt
+    index_gte: BigInt
+    index_in: [BigInt!]
+    index_lt: BigInt
+    index_lte: BigInt
+    index_not: BigInt
+    index_not_in: [BigInt!]
+    metadata: String
+    metadata_contains: String
+    metadata_ends_with: String
+    metadata_gt: String
+    metadata_gte: String
+    metadata_in: [String!]
+    metadata_lt: String
+    metadata_lte: String
+    metadata_not: String
+    metadata_not_contains: String
+    metadata_not_ends_with: String
+    metadata_not_in: [String!]
+    metadata_not_starts_with: String
+    metadata_starts_with: String
+    proposer: String
+    proposer_contains: String
+    proposer_ends_with: String
+    proposer_gt: String
+    proposer_gte: String
+    proposer_in: [String!]
+    proposer_lt: String
+    proposer_lte: String
+    proposer_not: String
+    proposer_not_contains: String
+    proposer_not_ends_with: String
+    proposer_not_in: [String!]
+    proposer_not_starts_with: String
+    proposer_starts_with: String
+    startDate: BigInt
+    startDate_gt: BigInt
+    startDate_gte: BigInt
+    startDate_in: [BigInt!]
+    startDate_lt: BigInt
+    startDate_lte: BigInt
+    startDate_not: BigInt
+    startDate_not_in: [BigInt!]
+    state: BigInt
+    state_gt: BigInt
+    state_gte: BigInt
+    state_in: [BigInt!]
+    state_lt: BigInt
+    state_lte: BigInt
+    state_not: BigInt
+    state_not_in: [BigInt!]
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+    title: String
+    title_contains: String
+    title_ends_with: String
+    title_gt: String
+    title_gte: String
+    title_in: [String!]
+    title_lt: String
+    title_lte: String
+    title_not: String
+    title_not_contains: String
+    title_not_ends_with: String
+    title_not_in: [String!]
+    title_not_starts_with: String
+    title_starts_with: String
+}
+
+enum Purposal_orderBy {
+    againstVotes
+    block
+    details
+    duration
+    endDate
+    executed
+    executor
+    forVotes
+    governance
+    id
+    index
+    metadata
+    proposer
+    startDate
+    state
+    timestamp
+    title
+}
+
 type Query {
     """
     Access to subgraph metadata
     """
     _meta(block: Block_height): _Meta_
+    claimed(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Claimed
+    claimeds(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Claimed_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Claimed_filter
+    ): [Claimed!]!
+    governance(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Governance
+    governances(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Governance_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Governance_filter
+    ): [Governance!]!
+    lock(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Lock
+    locks(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Lock_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Lock_filter
+    ): [Lock!]!
     masterChef(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -371,6 +883,74 @@ type Query {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: Pool_filter
     ): [Pool!]!
+    purposal(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Purposal
+    purposals(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Purposal_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Purposal_filter
+    ): [Purposal!]!
+    reward(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Reward
+    rewardInfo(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): RewardInfo
+    rewardInfos(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: RewardInfo_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: RewardInfo_filter
+    ): [RewardInfo!]!
     rewarder(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -399,6 +979,22 @@ type Query {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: Rewarder_filter
     ): [Rewarder!]!
+    rewards(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Reward_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Reward_filter
+    ): [Reward!]!
     user(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -427,6 +1023,254 @@ type Query {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: User_filter
     ): [User!]!
+    xembr(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): XEmbr
+    xembrs(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: XEmbr_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: XEmbr_filter
+    ): [XEmbr!]!
+    xuser(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): XUser
+    xusers(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: XUser_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: XUser_filter
+    ): [XUser!]!
+}
+
+type Reward {
+    address: Bytes!
+    block: BigInt!
+    claimed: BigInt!
+    id: ID!
+    index: BigInt!
+    owner: XUser
+    timestamp: BigInt!
+}
+
+type RewardInfo {
+    active: Boolean!
+    address: Bytes!
+    block: BigInt!
+    claimed: BigInt!
+    expiry: BigInt!
+    id: ID!
+    index: BigInt!
+    timestamp: BigInt!
+    unclaimed: BigInt!
+    xembr: XEmbr
+}
+
+input RewardInfo_filter {
+    active: Boolean
+    active_in: [Boolean!]
+    active_not: Boolean
+    active_not_in: [Boolean!]
+    address: Bytes
+    address_contains: Bytes
+    address_in: [Bytes!]
+    address_not: Bytes
+    address_not_contains: Bytes
+    address_not_in: [Bytes!]
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    claimed: BigInt
+    claimed_gt: BigInt
+    claimed_gte: BigInt
+    claimed_in: [BigInt!]
+    claimed_lt: BigInt
+    claimed_lte: BigInt
+    claimed_not: BigInt
+    claimed_not_in: [BigInt!]
+    expiry: BigInt
+    expiry_gt: BigInt
+    expiry_gte: BigInt
+    expiry_in: [BigInt!]
+    expiry_lt: BigInt
+    expiry_lte: BigInt
+    expiry_not: BigInt
+    expiry_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    index: BigInt
+    index_gt: BigInt
+    index_gte: BigInt
+    index_in: [BigInt!]
+    index_lt: BigInt
+    index_lte: BigInt
+    index_not: BigInt
+    index_not_in: [BigInt!]
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+    unclaimed: BigInt
+    unclaimed_gt: BigInt
+    unclaimed_gte: BigInt
+    unclaimed_in: [BigInt!]
+    unclaimed_lt: BigInt
+    unclaimed_lte: BigInt
+    unclaimed_not: BigInt
+    unclaimed_not_in: [BigInt!]
+    xembr: String
+    xembr_contains: String
+    xembr_ends_with: String
+    xembr_gt: String
+    xembr_gte: String
+    xembr_in: [String!]
+    xembr_lt: String
+    xembr_lte: String
+    xembr_not: String
+    xembr_not_contains: String
+    xembr_not_ends_with: String
+    xembr_not_in: [String!]
+    xembr_not_starts_with: String
+    xembr_starts_with: String
+}
+
+enum RewardInfo_orderBy {
+    active
+    address
+    block
+    claimed
+    expiry
+    id
+    index
+    timestamp
+    unclaimed
+    xembr
+}
+
+input Reward_filter {
+    address: Bytes
+    address_contains: Bytes
+    address_in: [Bytes!]
+    address_not: Bytes
+    address_not_contains: Bytes
+    address_not_in: [Bytes!]
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    claimed: BigInt
+    claimed_gt: BigInt
+    claimed_gte: BigInt
+    claimed_in: [BigInt!]
+    claimed_lt: BigInt
+    claimed_lte: BigInt
+    claimed_not: BigInt
+    claimed_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    index: BigInt
+    index_gt: BigInt
+    index_gte: BigInt
+    index_in: [BigInt!]
+    index_lt: BigInt
+    index_lte: BigInt
+    index_not: BigInt
+    index_not_in: [BigInt!]
+    owner: String
+    owner_contains: String
+    owner_ends_with: String
+    owner_gt: String
+    owner_gte: String
+    owner_in: [String!]
+    owner_lt: String
+    owner_lte: String
+    owner_not: String
+    owner_not_contains: String
+    owner_not_ends_with: String
+    owner_not_in: [String!]
+    owner_not_starts_with: String
+    owner_starts_with: String
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+}
+
+enum Reward_orderBy {
+    address
+    block
+    claimed
+    id
+    index
+    owner
+    timestamp
 }
 
 type Rewarder {
@@ -491,6 +1335,90 @@ type Subscription {
     Access to subgraph metadata
     """
     _meta(block: Block_height): _Meta_
+    claimed(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Claimed
+    claimeds(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Claimed_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Claimed_filter
+    ): [Claimed!]!
+    governance(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Governance
+    governances(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Governance_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Governance_filter
+    ): [Governance!]!
+    lock(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Lock
+    locks(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Lock_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Lock_filter
+    ): [Lock!]!
     masterChef(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -563,6 +1491,74 @@ type Subscription {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: Pool_filter
     ): [Pool!]!
+    purposal(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Purposal
+    purposals(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Purposal_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Purposal_filter
+    ): [Purposal!]!
+    reward(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): Reward
+    rewardInfo(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): RewardInfo
+    rewardInfos(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: RewardInfo_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: RewardInfo_filter
+    ): [RewardInfo!]!
     rewarder(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -591,6 +1587,22 @@ type Subscription {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: Rewarder_filter
     ): [Rewarder!]!
+    rewards(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: Reward_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: Reward_filter
+    ): [Reward!]!
     user(
         """
         The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -619,6 +1631,62 @@ type Subscription {
         subgraphError: _SubgraphErrorPolicy_! = deny
         where: User_filter
     ): [User!]!
+    xembr(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): XEmbr
+    xembrs(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: XEmbr_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: XEmbr_filter
+    ): [XEmbr!]!
+    xuser(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        id: ID!
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+    ): XUser
+    xusers(
+        """
+        The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+        """
+        block: Block_height
+        first: Int = 100
+        orderBy: XUser_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+
+        """
+        Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+        """
+        subgraphError: _SubgraphErrorPolicy_! = deny
+        where: XUser_filter
+    ): [XUser!]!
 }
 
 type User {
@@ -714,6 +1782,226 @@ enum User_orderBy {
     timestamp
 }
 
+type XEmbr {
+    activeTokenCount: BigInt!
+    block: BigInt!
+    id: ID!
+    rewards(
+        first: Int = 100
+        orderBy: RewardInfo_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+        where: RewardInfo_filter
+    ): [RewardInfo!]!
+    staking: BigInt!
+    timestamp: BigInt!
+    tokenCount: BigInt!
+    userCount: BigInt!
+    users(
+        first: Int = 100
+        orderBy: XUser_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+        where: XUser_filter
+    ): [XUser!]
+}
+
+input XEmbr_filter {
+    activeTokenCount: BigInt
+    activeTokenCount_gt: BigInt
+    activeTokenCount_gte: BigInt
+    activeTokenCount_in: [BigInt!]
+    activeTokenCount_lt: BigInt
+    activeTokenCount_lte: BigInt
+    activeTokenCount_not: BigInt
+    activeTokenCount_not_in: [BigInt!]
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    staking: BigInt
+    staking_gt: BigInt
+    staking_gte: BigInt
+    staking_in: [BigInt!]
+    staking_lt: BigInt
+    staking_lte: BigInt
+    staking_not: BigInt
+    staking_not_in: [BigInt!]
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+    tokenCount: BigInt
+    tokenCount_gt: BigInt
+    tokenCount_gte: BigInt
+    tokenCount_in: [BigInt!]
+    tokenCount_lt: BigInt
+    tokenCount_lte: BigInt
+    tokenCount_not: BigInt
+    tokenCount_not_in: [BigInt!]
+    userCount: BigInt
+    userCount_gt: BigInt
+    userCount_gte: BigInt
+    userCount_in: [BigInt!]
+    userCount_lt: BigInt
+    userCount_lte: BigInt
+    userCount_not: BigInt
+    userCount_not_in: [BigInt!]
+}
+
+enum XEmbr_orderBy {
+    activeTokenCount
+    block
+    id
+    rewards
+    staking
+    timestamp
+    tokenCount
+    userCount
+    users
+}
+
+type XUser {
+    block: BigInt!
+    claimed(
+        first: Int = 100
+        orderBy: Claimed_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+        where: Claimed_filter
+    ): [Claimed!]
+    expiry: BigInt!
+    id: ID!
+    locks(
+        first: Int = 100
+        orderBy: Lock_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+        where: Lock_filter
+    ): [Lock!]
+    owner: Bytes!
+    purposals(
+        first: Int = 100
+        orderBy: Purposal_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+        where: Purposal_filter
+    ): [Purposal!]
+    rewards(
+        first: Int = 100
+        orderBy: Reward_orderBy
+        orderDirection: OrderDirection
+        skip: Int = 0
+        where: Reward_filter
+    ): [Reward!]
+    staking: BigInt!
+    start: BigInt!
+    timestamp: BigInt!
+    xembr: XEmbr
+}
+
+input XUser_filter {
+    block: BigInt
+    block_gt: BigInt
+    block_gte: BigInt
+    block_in: [BigInt!]
+    block_lt: BigInt
+    block_lte: BigInt
+    block_not: BigInt
+    block_not_in: [BigInt!]
+    expiry: BigInt
+    expiry_gt: BigInt
+    expiry_gte: BigInt
+    expiry_in: [BigInt!]
+    expiry_lt: BigInt
+    expiry_lte: BigInt
+    expiry_not: BigInt
+    expiry_not_in: [BigInt!]
+    id: ID
+    id_gt: ID
+    id_gte: ID
+    id_in: [ID!]
+    id_lt: ID
+    id_lte: ID
+    id_not: ID
+    id_not_in: [ID!]
+    owner: Bytes
+    owner_contains: Bytes
+    owner_in: [Bytes!]
+    owner_not: Bytes
+    owner_not_contains: Bytes
+    owner_not_in: [Bytes!]
+    staking: BigInt
+    staking_gt: BigInt
+    staking_gte: BigInt
+    staking_in: [BigInt!]
+    staking_lt: BigInt
+    staking_lte: BigInt
+    staking_not: BigInt
+    staking_not_in: [BigInt!]
+    start: BigInt
+    start_gt: BigInt
+    start_gte: BigInt
+    start_in: [BigInt!]
+    start_lt: BigInt
+    start_lte: BigInt
+    start_not: BigInt
+    start_not_in: [BigInt!]
+    timestamp: BigInt
+    timestamp_gt: BigInt
+    timestamp_gte: BigInt
+    timestamp_in: [BigInt!]
+    timestamp_lt: BigInt
+    timestamp_lte: BigInt
+    timestamp_not: BigInt
+    timestamp_not_in: [BigInt!]
+    xembr: String
+    xembr_contains: String
+    xembr_ends_with: String
+    xembr_gt: String
+    xembr_gte: String
+    xembr_in: [String!]
+    xembr_lt: String
+    xembr_lte: String
+    xembr_not: String
+    xembr_not_contains: String
+    xembr_not_ends_with: String
+    xembr_not_in: [String!]
+    xembr_not_starts_with: String
+    xembr_starts_with: String
+}
+
+enum XUser_orderBy {
+    block
+    claimed
+    expiry
+    id
+    locks
+    owner
+    purposals
+    rewards
+    staking
+    start
+    timestamp
+    xembr
+}
+
 type _Block_ {
     """
     The hash of the block
@@ -730,12 +2018,7 @@ type _Block_ {
 The type for the top-level _meta field
 """
 type _Meta_ {
-    """
-    Information about a specific subgraph block. The hash of the block
-    will be null if the _meta field has a block constraint that asks for
-    a block number. It will be filled if the _meta field has no block constraint
-    and therefore asks for the latest  block
-    """
+    "Information about a specific subgraph block. The hash of the block\nwill be null if the _meta field has a block constraint that asks for\na block number. It will be filled if the _meta field has no block constraint\nand therefore asks for the latest  block\n"
     block: _Block_!
 
     """

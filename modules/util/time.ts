@@ -2,16 +2,23 @@ import moment from 'moment-timezone';
 
 export const oneMinuteInSeconds = 60;
 export const fiveMinutesInSeconds = oneMinuteInSeconds * 5;
+export const fiveMinutesInMs = fiveMinutesInSeconds * 1000;
 
 export const oneSecondInMs = 1000;
 export const oneMinInMs = 60 * oneSecondInMs;
 export const oneHourInMs = 60 * oneMinInMs;
 
+export const thirtyMinInMs = 30 * 60 * oneSecondInMs;
 export const twentyFourHoursInMs = 24 * oneHourInMs;
 export const twentyFourHoursInSecs = twentyFourHoursInMs / oneSecondInMs;
 
+export const oneDayInMinutes = 60 * 24;
 export const thirtyDaysInSeconds = 60 * 60 * 24;
+export const thirtyDaysInMinutes = oneDayInMinutes * 30;
 export const timeNowInMs = Math.floor(Date.now() / oneSecondInMs);
+
+export const secondsPerDay = 86400;
+export const secondsPerYear = secondsPerDay * 365;
 
 export function getDailyTimestampRanges(numDays: number): [number, number][] {
     const timestamps: [number, number][] = [];

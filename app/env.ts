@@ -19,11 +19,10 @@ export const schema = {
     COINGECKO_PLATFORM_ID: String,
     EMBR_ADDRESS: String,
     SUBGRAPH_START_DATE: String,
-    EMBR_PIT_SUBGRAPH: String,
-    CEMBR_ADDRESS: String,
-    CEMBR_POOL_ID: String,
-    CEMBR_FARM_ID: String,
     ADMIN_API_KEY: String,
+    POOL_CONFIG: String,
+    TOKEN_CONFIG: String,
+    RPC_URL: String,
 };
 
 export const env: Env = load(schema, {

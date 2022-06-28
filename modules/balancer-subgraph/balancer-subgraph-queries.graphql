@@ -51,6 +51,7 @@ query BalancerUsers(
 fragment BalancerUser on User {
     id
     sharesOwned(first: 1000) {
+        id
         balance
         poolId {
             id
@@ -106,6 +107,16 @@ fragment BalancerPool on Pool {
     totalShares
     swapsCount
     holdersCount
+    createTime
+    swapEnabled
+    tokensList
+    factory
+    expiryTime
+    unitSeconds
+    principalToken
+    baseToken
+    owner
+    amp
 
     tokens(first: 1000) {
         ...BalancerPoolToken
@@ -225,13 +236,13 @@ query BalancerLatestPrices(
         where: $where
         block: $block
     ) {
-        id
-        asset
-        price
-        poolId {
-            id
-        }
-        pricingAsset
+        ...BalancerLatestPrice
+    }
+}
+
+query BalancerLatestPrice($id: ID!) {
+    latestPrice(id: $id) {
+        ...BalancerLatestPrice
     }
 }
 
@@ -255,6 +266,18 @@ query BalancerJoinExits(
     }
 }
 
+fragment BalancerLatestPrice on LatestPrice {
+    id
+    asset
+    price
+    poolId {
+        id
+    }
+    pricingAsset
+    block
+    priceUSD
+}
+
 fragment BalancerJoinExit on JoinExit {
     amounts
     id
@@ -271,18 +294,58 @@ fragment BalancerJoinExit on JoinExit {
     }
 }
 
-query BalancePortfolioData($id: ID!, $previousBlockNumber: Int!) {
+query BalancerPortfolioData($id: ID!, $previousBlockNumber: Int!) {
     user(id: $id) {
         ...BalancerUser
     }
+    previousUser: user(id: $id, block: { number: $previousBlockNumber }) {
+        ...BalancerUser
+    }
+}
+
+query BalancerPortfolioPoolsData($previousBlockNumber: Int!) {
     pools(first: 1000, where: { totalShares_gt: "0" }) {
         ...BalancerPool
     }
 
-    previousUser: user(id: $id, block: { number: $previousBlockNumber }) {
-        ...BalancerUser
-    }
     previousPools: pools(first: 1000, where: { totalShares_gt: "0" }, block: { number: $previousBlockNumber }) {
         ...BalancerPool
+    }
+}
+
+query BalancerTradePairSnapshots(
+    $skip: Int
+    $first: Int
+    $orderBy: TradePairSnapshot_orderBy
+    $orderDirection: OrderDirection
+    $where: TradePairSnapshot_filter
+    $block: Block_height
+) {
+    tradePairSnapshots(
+        skip: $skip
+        first: $first
+        orderBy: $orderBy
+        orderDirection: $orderDirection
+        where: $where
+        block: $block
+    ) {
+        ...BalancerTradePairSnapshot
+    }
+}
+
+fragment BalancerTradePairSnapshot on TradePairSnapshot {
+    id
+    totalSwapFee
+    totalSwapVolume
+    timestamp
+    pair {
+        token0 {
+            address
+            symbol
+        }
+        token1 {
+            address
+            symbol
+        }
     }
 }

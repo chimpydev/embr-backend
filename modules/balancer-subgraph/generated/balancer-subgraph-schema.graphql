@@ -3420,12 +3420,7 @@ type _Block_ {
 The type for the top-level _meta field
 """
 type _Meta_ {
-    """
-    Information about a specific subgraph block. The hash of the block
-    will be null if the _meta field has a block constraint that asks for
-    a block number. It will be filled if the _meta field has no block constraint
-    and therefore asks for the latest  block
-    """
+    "Information about a specific subgraph block. The hash of the block\nwill be null if the _meta field has a block constraint that asks for\na block number. It will be filled if the _meta field has no block constraint\nand therefore asks for the latest  block\n"
     block: _Block_!
 
     """
